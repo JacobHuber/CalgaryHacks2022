@@ -1,6 +1,7 @@
 import pygame, sys
 from pygame.locals import *
 from game import *
+from mainMenu import *
 
 class SceneRunner:
 	def __init__(self):
@@ -10,7 +11,7 @@ class SceneRunner:
 		self.FPS = 60
 
 		self.current_scene = 0
-		self.scenes = [Game(self)]
+		self.scenes = [Game(self),MainMenu(self)]
 
 		self.pygame_setup()
 		self.main_loop()
