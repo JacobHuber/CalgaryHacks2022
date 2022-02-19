@@ -1,6 +1,7 @@
 import pygame, sys
 from pygame.locals import *
-import button
+from button import *
+from player import *
 
 class Game:
 
@@ -14,6 +15,7 @@ class Game:
 
 		self.pygame_setup()
 		self.create_buttons()
+		self.create_player()
 		self.main_loop()
 
 	def pygame_setup(self):
@@ -25,10 +27,15 @@ class Game:
 		pygame.display.set_caption(self.name)
 
 	def create_buttons(self):
-		testButton = button.Button("Test", pygame.Rect(0,0, 200, 100), (100, 150, 20), print)
+		testButton = Button("Test", pygame.Rect(200, 200, 200, 100), (100, 150, 20), print)
 
 		self.tickables.append(testButton)
 		self.drawables.append(testButton)
+
+	def create_player(self):
+		self.player = Player()
+
+		self.drawables.append(self.player)
 
 	def main_loop(self):
 		while True:

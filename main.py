@@ -1,7 +1,7 @@
-import game
+from game import *
 
 def main():
-	newGame = game.Game()
+	newGame = Game()
 
 if __name__ == "__main__":
 	main()
