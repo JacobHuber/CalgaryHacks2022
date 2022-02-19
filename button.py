@@ -28,10 +28,17 @@ class Button:
 		else:
 			self.hovered = False
 
-	def draw(self, surface):
+	def draw(self, surface, font):
 		pygame.draw.rect(surface, self.color, self.rect, 0)
+
+		buttonText = font.render(self.text, True, (255,255,255))
+		buttonTextRect = buttonText.get_rect()
+		buttonTextRect.center = self.rect.center
+		surface.blit(buttonText, buttonTextRect)
 
 		borderColor = self.borderColor
 		if (self.hovered):
 			borderColor = self.borderHoverColor
 		pygame.draw.rect(surface, borderColor, self.rect, 2)
+
+

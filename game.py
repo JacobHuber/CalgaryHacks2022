@@ -6,8 +6,8 @@ class Game:
 
 	def __init__(self):
 		self.name = "CalgaryHacks 2022"
-		self.WIDTH = 400
-		self.HEIGHT = 400
+		self.WIDTH = 1280
+		self.HEIGHT = 720
 		self.FPS = 60
 		self.tickables = []
 		self.drawables = []
@@ -20,6 +20,7 @@ class Game:
 		pygame.init()
 		self.display_surface = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
 		self.clock = pygame.time.Clock()
+		self.font = pygame.font.Font("font.ttf", 32)
 		
 		pygame.display.set_caption(self.name)
 
@@ -34,7 +35,7 @@ class Game:
 			self.display_surface.fill((0,0,0))
 
 			for event in pygame.event.get():
-				if event.type == QUIT:
+				if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
 					pygame.quit()
 					sys.exit()
 
@@ -42,7 +43,7 @@ class Game:
 				item.tick()
 
 			for item in self.drawables:
-				item.draw(self.display_surface)
+				item.draw(self.display_surface, self.font)
 
 			pygame.display.update()
 			self.clock.tick(self.FPS)
