@@ -2,7 +2,7 @@ import pygame, sys
 from pygame.locals import *
 
 class Button:
-	def __init__(self, text, rect, color, callback):
+	def __init__(self, text, rect, color, callback=print):
 		self.borderColor = (0,0,0)
 		self.borderHoverColor = (255,255,255)
 
