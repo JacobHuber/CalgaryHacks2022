@@ -10,22 +10,45 @@ class Healthbar:
 		self.value = value[0]
 		self.max = value[1]
 
+		# Linear Interpolation Stuff
+		self.currLerpTime = 0
+		self.lerpTime = 30
+		self.lerpValue = self.value
+		self.lerpAmount = 0
+
+	def doLerp(self):
+		if (self.currLerpTime != self.lerpTime):
+			change = self.lerpAmount * (1 / self.lerpTime)
+			self.lerpValue += change
+
+			self.currLerpTime += 1
+
+
 	def increment(self, amount):
+		self.currLerpTime = 0
+		self.lerpValue = self.value
 		self.value += amount
+		
 		if (self.value > self.max):
 			self.value = self.max
 
+		self.lerpAmount = self.value - self.lerpValue
+
 	def decrement(self, amount):
+		self.currLerpTime = 0
+		self.lerpValue = self.value
 		self.value -= amount
+
 		if (self.value < 0):
 			self.value = 0
-			return False
 
-		return True
+		self.lerpAmount = self.value - self.lerpValue
 
 	def draw(self, surface, font):
+		self.doLerp()
+
 		filledRect = pygame.Rect(self.rect)
-		filledRect.width = int(self.rect.width * (self.value / self.max))
+		filledRect.width = int(self.rect.width * (self.lerpValue / self.max))
 
 		emptyRect = pygame.Rect(self.rect)
 		emptyRect.width = self.rect.width - filledRect.width

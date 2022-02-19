@@ -9,11 +9,11 @@ class Player:
 		self.create_bars()
 
 		# How much to decay each time
-		self.decayAmount = 0.2
+		self.decayAmount = 1
 
 		# How many frames until decay
 		self.decayTime = 0
-		self.decayMax = 0.5 * self.game.sr.FPS
+		self.decayMax = 1 * self.game.sr.FPS
 
 	def create_buttons(self):
 		self.buttons = []
