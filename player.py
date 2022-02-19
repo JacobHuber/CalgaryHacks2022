@@ -8,6 +8,8 @@ class Player:
 	def __init__(self, game):
 		self.game = game
 
+		self.time = 0
+
 		self.buttonWidth = 200
 		self.buttonHeight = 60
 		self.margin = 20 + self.buttonWidth
@@ -65,8 +67,12 @@ class Player:
 		self.gameSurface.fill((20,20,20))
 
 
+		self.currentMinigame = 1
 		self.minigames = []
 		self.minigames.append(MinigameWork(self.buttonColors[0]))
+		self.minigames.append(Minigame(self.buttonColors[1]))
+		self.minigames.append(Minigame(self.buttonColors[2]))
+		self.minigames.append(Minigame(self.buttonColors[3]))
 
 	def decayBars(self):
 		for bar in self.bars:
@@ -76,9 +82,8 @@ class Player:
 		pass
 
 	def tick(self):
-		self.decayTime += 1
-		if (self.decayTime >= self.decayMax):
-			self.decayTime = 0
+		self.time += 1
+		if (self.time % self.decayMax == 0):
 			self.decayBars()
 
 		for button in self.buttons:
@@ -89,7 +94,19 @@ class Player:
 			else:
 				button.off = False
 
+	def update_clock(self, surface, font):
+		seconds = (self.time // self.game.sr.FPS) % 60
+		minutes = (self.time // (self.game.sr.FPS * 60)) % 60
+
+		text = f'{minutes:02}' + ":" + f'{seconds:02}'
+
+		clockText = font.render(text, True, (255,255,255))
+		clockTextRect = clockText.get_rect()
+		clockTextRect.bottomright = (self.game.sr.WIDTH - 20, self.game.sr.HEIGHT - 20)
+		surface.blit(clockText, clockTextRect)
+
 	def draw(self, surface, font):
+		self.update_clock(surface, font)
 
 		for bar in self.bars:
 			bar.draw(surface, font)
@@ -97,7 +114,7 @@ class Player:
 		for button in self.buttons:
 			button.draw(surface, font)
 
-		for game in self.minigames:
-			game.draw(self.gameSurface, font)
+		
+		self.minigames[self.currentMinigame].draw(self.gameSurface, font)
 		
 		surface.blit(self.gameSurface, self.gameSurfaceRect)
