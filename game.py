@@ -21,4 +21,6 @@ class Game:
 
 	def create_player(self):
 		self.player = Player(self)
+		
+		self.tickables.append(self.player)
 		self.drawables.append(self.player)

@@ -10,10 +10,18 @@ class Healthbar:
 		self.value = value[0]
 		self.max = value[1]
 
-	def add(self, amount):
+	def increment(self, amount):
 		self.value += amount
 		if (self.value > self.max):
 			self.value = self.max
+
+	def decrement(self, amount):
+		self.value -= amount
+		if (self.value < 0):
+			self.value = 0
+			return False
+
+		return True
 
 	def draw(self, surface, font):
 		filledRect = pygame.Rect(self.rect)
