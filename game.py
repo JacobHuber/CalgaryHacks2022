@@ -40,19 +40,19 @@ class Game:
 	def game_loop(self):
 		self.display_surface.fill((0,0,0))
 
-			for event in pygame.event.get():
-				if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
-					pygame.quit()
-					sys.exit()
+		for event in pygame.event.get():
+			if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
+				pygame.quit()
+				sys.exit()
 
-			for item in self.tickables:
-				item.tick()
+		for item in self.tickables:
+			item.tick()
 
-			for item in self.drawables:
-				item.draw(self.display_surface, self.font)
+		for item in self.drawables:
+			item.draw(self.display_surface, self.font)
 
-			pygame.display.update()
-			self.clock.tick(self.FPS)
+		pygame.display.update()
+		self.clock.tick(self.FPS)
 
 	def main_loop(self):
 		while True:
