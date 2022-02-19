@@ -33,13 +33,12 @@ class Game:
 		self.drawables.append(testButton)
 
 	def create_player(self):
-		self.player = Player()
+		self.player = Player(self)
 
 		self.drawables.append(self.player)
 
-	def main_loop(self):
-		while True:
-			self.display_surface.fill((0,0,0))
+	def game_loop(self):
+		self.display_surface.fill((0,0,0))
 
 			for event in pygame.event.get():
 				if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
@@ -54,3 +53,8 @@ class Game:
 
 			pygame.display.update()
 			self.clock.tick(self.FPS)
+
+	def main_loop(self):
+		while True:
+			self.game_loop()
+			
