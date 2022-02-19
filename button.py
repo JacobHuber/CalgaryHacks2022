@@ -6,7 +6,8 @@ class Button:
 		self.borderColor = (0,0,0)
 		self.borderHoverColor = (255,255,255)
 
-		self.color = color
+		self.color = pygame.Color(color)
+		self.fontColor = pygame.Color(255,255,255)
 		self.text = text
 		self.rect = rect
 		self.callback = callback
@@ -14,24 +15,39 @@ class Button:
 		self.hovered = False
 		self.clicked = False
 
-	def tick(self):
-		mouse = pygame.mouse.get_pos()
+		self.off = False
+		scale = 10
+		scaleCol = pygame.Color(scale,scale,scale,1)
+		self.offColor = self.color // scaleCol
+		self.offFontColor = self.fontColor // scaleCol
 
-		if (self.rect.collidepoint(mouse)):
-			if (pygame.mouse.get_pressed()[0]):
-				if (not self.clicked):
-					self.clicked = True
-					self.callback(self.text)
+	def tick(self):
+		if (not self.off):
+			mouse = pygame.mouse.get_pos()
+
+			if (self.rect.collidepoint(mouse)):
+				if (pygame.mouse.get_pressed()[0]):
+					if (not self.clicked):
+						self.clicked = True
+						self.callback(self.text)
+				else:
+					self.clicked = False
+				self.hovered = True
 			else:
-				self.clicked = False
-			self.hovered = True
+				self.hovered = False
 		else:
 			self.hovered = False
 
 	def draw(self, surface, font):
-		pygame.draw.rect(surface, self.color, self.rect, 0)
+		bgColor = self.color
+		fontColor = self.fontColor
+		if (self.off):
+			bgColor = self.offColor
+			fontColor = self.offFontColor
 
-		buttonText = font.render(self.text, True, (255,255,255))
+		pygame.draw.rect(surface, bgColor, self.rect)
+
+		buttonText = font.render(self.text, True, fontColor)
 		buttonTextRect = buttonText.get_rect()
 		buttonTextRect.center = self.rect.center
 		surface.blit(buttonText, buttonTextRect)
