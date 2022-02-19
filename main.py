@@ -1,7 +1,7 @@
-from game import *
+from scenerunner import *
 
 def main():
-	newGame = Game()
+	newGame = SceneRunner()
 
 if __name__ == "__main__":
 	main()
