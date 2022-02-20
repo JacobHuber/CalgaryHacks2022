@@ -40,8 +40,8 @@ class GameOver:
         self.create_buttons()
 
     def create_buttons(self):
-        playButton = Button("Play Again", pygame.Rect(self.sr.WIDTH/2-200, self.sr.HEIGHT/2+100, 400, 100), (100, 150, 20), self.changeMain)
-        exitButton = Button("Exit", pygame.Rect(self.sr.WIDTH/2-200, self.sr.HEIGHT/2+200, 400, 100), (230, 14, 14), self.exitFun)
+        playButton = Button("Play Again", pygame.Rect(self.sr.WIDTH/2-400, self.sr.HEIGHT/2+200, 400, 100), (100, 150, 20), self.changeMain)
+        exitButton = Button("Exit", pygame.Rect(self.sr.WIDTH/2, self.sr.HEIGHT/2+200, 400, 100), (230, 14, 14), self.exitFun)
         self.addButton(playButton)
         self.addButton(exitButton)
         
