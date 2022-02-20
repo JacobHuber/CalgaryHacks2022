@@ -13,6 +13,7 @@ class Player:
 		self.game = game
 
 		self.time = 0
+		self.day = 1;
 
 		self.buttonWidth = 200
 		self.buttonHeight = 60
@@ -59,7 +60,7 @@ class Player:
 
 	def create_bars(self):
 		self.barNames = ["Money", "Food", "Grades", "Happiness"]
-		self.barValues = [(60, 100), (100, 100), (50, 100), (50, 100)]
+		self.barValues = [(60, 100), (100, 100), (50, 100), (10, 100)]
 
 		mid_y = self.game.sr.HEIGHT // 2
 
@@ -147,14 +148,21 @@ class Player:
 
 	def update_clock(self, surface, font):
 		seconds = (self.time // self.game.sr.FPS) % 60
-		minutes = (self.time // (self.game.sr.FPS * 60)) % 60
+		minutes = seconds*5%60
+		hour = 12+(int(seconds/12))
 
-		text = f'{minutes:02}' + ":" + f'{seconds:02}'
+		text = f'{hour:02}' + ":" + f'{minutes:02}'
 
 		clockText = font.render(text, True, (255,255,255))
 		clockTextRect = clockText.get_rect()
 		clockTextRect.bottomright = (self.game.sr.WIDTH - 20, self.game.sr.HEIGHT - 20)
 		surface.blit(clockText, clockTextRect)
+
+		dayTText = "Day: " + str(self.day)
+		dayText = font.render(dayTText, True, (255,255,255))
+		dayTextRect = dayText.get_rect()
+		dayTextRect.bottomright = (self.game.sr.WIDTH - 20,  50)
+		surface.blit(dayText, dayTextRect)
 
 	def get_faded_level(self):
 		values = []

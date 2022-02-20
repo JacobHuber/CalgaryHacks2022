@@ -26,15 +26,18 @@ class GameOver:
 
 
     def updateScore(self):
+        self.tickables = []
+        self.drawables = []
         time = self.sr.scenes[0].player.time
         seconds = (time // self.sr.FPS) % 60
-        minutes = (time // (self.sr.FPS * 60)) % 60
-
-        text = f'{minutes:02}' + ":" + f'{seconds:02}'
+        minutes = seconds*5%60
+        hour = 12+(int(seconds/12))
+        text = f'{hour:02}' + ":" + f'{minutes:02}'
 
         fontbody = pygame.font.Font("font.ttf",58)
-        body = Text(self.sr,fontbody,"Score: "+text,(255,255,255),self.sr.WIDTH/2,self.sr.HEIGHT/2-100,100,100)
+        body = Text(self.sr,fontbody,"Day "+str(self.sr.scenes[0].player.day)+", " +text,(255,255,255),self.sr.WIDTH/2,self.sr.HEIGHT/2-50,100,100)
         self.drawables.append(body)
+        self.create_buttons()
 
     def create_buttons(self):
         playButton = Button("Play Again", pygame.Rect(self.sr.WIDTH/2-200, self.sr.HEIGHT/2+100, 400, 100), (100, 150, 20), self.changeMain)
