@@ -96,8 +96,8 @@ class Player:
 			button.off = True
 
 	def end_minigame(self, gain):
-		i = self.currentMinigame
-		self.bars[i].change(gain)
+		for i in range(len(self.bars)):
+			self.bars[i].change(gain[i])
 
 		for button in self.buttons:
 			button.off = False

@@ -8,10 +8,11 @@ from gameOver import *
 from newDay import *
 
 global unique_Click
-unique_Click = False
 
 class SceneRunner:
 	def __init__(self):
+		global unique_Click
+		unique_Click = False
 		self.name = "CalgaryHacks 2022"
 		self.WIDTH = 1280
 		self.HEIGHT = 720

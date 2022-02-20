@@ -20,6 +20,8 @@ class Minigame:
 		self.titleTime = 0
 		self.titleMax = 0.8 * self.player.game.sr.FPS
 
+		self.BIGFONT = pygame.font.Font("font.ttf", 64)
+
 
 		self.shouldDraw = False
 
@@ -60,10 +62,15 @@ class Minigame:
 
 	def draw_title_screen(self, font):
 		game = self.games[self.current_game]
-		self.title = font.render(game.gameTitle, True, (255,255,255))
+		self.title = self.BIGFONT.render(game.gameTitle, True, (255,255,255))
 		self.titleRect = self.title.get_rect()
 		self.titleRect.center = (self.width // 2, self.height // 2)
 		self.surface.blit(self.title, self.titleRect)
+
+		self.subtitle = font.render(game.subtitle, True, (255,255,255))
+		self.subtitleRect = self.subtitle.get_rect()
+		self.subtitleRect.center = (self.width // 2, self.height // 2 + 40)
+		self.surface.blit(self.subtitle, self.subtitleRect)
 
 
 	def draw(self, font):

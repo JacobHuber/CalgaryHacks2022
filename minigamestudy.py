@@ -22,10 +22,11 @@ def sub(a,b):
 class MathGame:
 	def __init__(self, mg):
 		self.mg = mg
-		self.gameTitle = "Everyone loves Math"
+		self.gameTitle = "Everyone Loves Math"
+		self.subtitle = "no they don't"
 		self.questionValue = 10
 
-		self.gain = 0
+		self.gain = [0,0,0,0]
 		self.end = False
 
 		self.question = ""
@@ -35,7 +36,7 @@ class MathGame:
 
 	def setup(self):
 		self.end = False
-		self.gain = 0
+		self.gain = [0,0,0,0]
 		self.answers = []
 		self.buttons = []
 
@@ -60,9 +61,9 @@ class MathGame:
 
 	def check_answer(self, text):
 		if (text == str(self.answer)):
-			self.gain = self.questionValue
+			self.gain[2] = self.questionValue
 		else:
-			self.gain = -self.questionValue
+			self.gain[2] = -self.questionValue
 		
 		self.end = True
 
@@ -82,12 +83,13 @@ class MathGame:
 class GeographyGame:
 	def __init__(self, mg):
 		self.gameTitle = "New Zealand"
+		self.subtitle = "which country could it be?"
 		self.mg = mg
 		
 		self.questionValue = 3
 
 		self.mouse_down = False
-		self.gain = 0
+		self.gain = [0,0,0,0]
 		self.end = False
 
 		self.image = pygame.image.load("pictures/newzealand.png", "png")
@@ -100,7 +102,7 @@ class GeographyGame:
 		self.buttons = []
 
 	def setup(self):
-		self.gain = 0
+		self.gain = [0,0,0,0]
 		self.end = False
 		self.answers = []
 		self.buttons = []
@@ -121,9 +123,9 @@ class GeographyGame:
 
 	def check_answer(self, text):
 		if (text == str(self.answer)):
-			self.gain = self.questionValue
+			self.gain[2] = self.questionValue
 		else:
-			self.gain = -self.questionValue
+			self.gain[2] = -self.questionValue
 		
 		self.end = True
 
@@ -147,8 +149,9 @@ class GeographyGame:
 class TypingGame:
 	def __init__(self,mg):
 		self.gameTitle = "Typing Test!!"
+		self.subtitle = "type the word correctly"
 		self.mg = mg
-		self.gain = 0
+		self.gain = [0,0,0,0]
 		self.end = False
 		self.text = ""
 		self.dum_text = list("")
@@ -156,20 +159,22 @@ class TypingGame:
 		self.current_index = 0
 		self.possibleText = [list("Type this for a B"),list("Type this for an A"),list("Where is New Zealand"),list("The mitochondria is the power house of the cell"),list("I LOVE BEAN BURRITOS"),list("Where is my chicken statue"),list("UCalgary Dating Sim when")]
 
+		self.cursor_blink = True
+		self.cursor_speed = 0.5 * self.mg.player.game.sr.FPS
+
 	def setup(self):
 		
 		self.text = choice(self.possibleText)
 		self.dum_text = list("")
 		self.end = False
-		self.gain = len(self.text)//2
+		self.gain[2] = len(self.text)//2
 		self.current_letter = ''
 		self.current_index = 0
-		for letter in self.text:
-			self.dum_text.append(" ")
+
 		self.current_letter = self.text[0]
 
 	def nextLetter(self):
-		self.dum_text[self.current_index] = self.current_letter
+		self.dum_text.append(self.current_letter)
 		if(self.current_index+1 == (len(self.text))):
 			self.end = True
 			return
@@ -182,16 +187,21 @@ class TypingGame:
 				if events.unicode == self.current_letter:
 					self.nextLetter()
 
+		if (self.mg.player.time % self.cursor_speed == 0):
+			self.cursor_blink = not self.cursor_blink
+
 	def draw(self,surface,font):
 		self.answerText = font.render("".join(self.text), True, (255,255,255))
 		self.answerTextRect = self.answerText.get_rect()
 		self.answerTextRect.center = (self.mg.width // 2, self.mg.height // 4)
 		surface.blit(self.answerText, self.answerTextRect)
 
-		self.dum_Text = font.render("".join(self.dum_text), True, (0,255,0))
+		self.dum_Text = font.render(">" + "".join(self.dum_text), True, (0,255,0))
 		self.dum_TextRect = self.dum_Text.get_rect()
-		self.dum_TextRect.center = (self.mg.width // 2, self.mg.height // 4+200)
+		self.dum_TextRect.midleft = (self.answerTextRect.left, self.mg.height // 4+200)
 		surface.blit(self.dum_Text, self.dum_TextRect)
 
-
-
+		sx = self.dum_TextRect.right
+		sy = self.dum_TextRect.bottom - 5
+		if (self.cursor_blink):
+			pygame.draw.line(surface, (0,255,0), (sx, sy), (sx + 10, sy))

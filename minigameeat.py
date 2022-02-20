@@ -16,7 +16,8 @@ class ShoppingGame:
 	def __init__(self, mg):
 		self.mg = mg
 		self.gameTitle = "Breakfast Lunch and Dinner"
-		self.gain = 0
+		self.subtitle = "A and D to MOVE"
+		self.gain = [0,0,0,0]
 		self.end = False
 
 		self.shoppingCartX = self.mg.width // 2
@@ -40,7 +41,7 @@ class ShoppingGame:
 
 	def setup(self):
 		self.currSpeed = 0
-		self.gain = 0
+		self.gain = [0,0,0,0]
 		self.end = False
 		self.shoppingCartX = self.mg.width // 2
 		self.ramenSpeed = 5
@@ -90,12 +91,12 @@ class ShoppingGame:
 
 			if (ramen["y"] > self.mg.height):
 				self.ramen.remove(ramen)
-				self.gain -= self.itemValue
+				self.gain[1] -= self.itemValue
 				self.end = True
 
 			if (self.shoppingCartRect.collidepoint((ramen["x"],ramen["y"]))):
 				self.ramen.remove(ramen)
-				self.gain += self.itemValue
+				self.gain[1] += self.itemValue
 				self.ramenSpeed += 1
 				self.spawn_ramen()
 
@@ -113,8 +114,9 @@ class ShoppingGame:
 class BulletHellGame:
 	def __init__(self, mg):
 		self.gameTitle = "Who's throwing these cans?"
+		self.subtitle = "you are the mouse. DODGE!"
 		self.mg = mg
-		self.gain = 0
+		self.gain = [0,0,0,0]
 		self.end = False
 
 		self.image = pygame.image.load("pictures/beans.png", "png")
@@ -129,7 +131,7 @@ class BulletHellGame:
 
 	def setup(self):
 		self.beans = []
-		self.gain = 0
+		self.gain = [0,0,0,0]
 		self.end = False
 		self.hellTime = 0
 
@@ -165,11 +167,11 @@ class BulletHellGame:
 
 				self.imageRect.center = (bean["x"], bean["y"])
 				if (self.imageRect.collidepoint(self.mg.get_mouse())):
-					self.gain = -10
+					self.gain[1] = -10
 					self.end = True
 
 			if (self.hellTime > self.endHell):
-				self.gain = 20
+				self.gain[1] = 20
 				self.end = True
 
 		self.hellTime += 1

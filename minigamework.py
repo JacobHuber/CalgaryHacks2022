@@ -14,6 +14,7 @@ class CoinGame:
 	def __init__(self, mg):
 		self.mg = mg
 		self.gameTitle = "Coins!"
+		self.subtitle = "you click them"
 
 		self.coinColor = pygame.Color(255,255,0)
 		self.coinTextColor = self.coinColor // pygame.Color(3,3,3,1)
@@ -23,12 +24,12 @@ class CoinGame:
 		self.coins = []
 
 		self.mouse_down = False
-		self.gain = 0
+		self.gain = [0,0,0,0]
 		self.end = False
 
 	def setup(self):
 		self.end = False
-		self.gain = 0
+		self.gain = [0,0,0,0]
 		self.coins = []
 		for i in range(self.amount):
 			r = 16
@@ -52,7 +53,7 @@ class CoinGame:
 
 				if (fabs(dx) <= coin["r"] and fabs(dy) <= coin["r"]):
 					self.coins.remove(coin)
-					self.gain += self.coinValue
+					self.gain[0] += self.coinValue
 			
 			coin["x"] = coin["x"] + coin["xs"]
 			coin["y"] = coin["y"] + coin["ys"]
@@ -86,9 +87,10 @@ class CoinGame:
 class CustomerGame:
 	def __init__(self, mg):
 		self.mg = mg
-		self.gain = 0
+		self.gain = [0,0,0,0]
 		self.end = False
 		self.gameTitle = "Customer Service"
+		self.subtitle = "choose wisely"
 
 		self.imgCustomer = pygame.image.load("pictures/customer.png", "png")
 		self.customerRect = self.imgCustomer.get_rect()
@@ -106,7 +108,7 @@ class CustomerGame:
 		self.customerY = self.mg.height + 100
 		self.isTalking = False
 		self.buttons = []
-		self.gain = 0
+		self.gain = [0,0,0,0]
 		self.end = False
 
 		self.message = choice(self.messages)
@@ -121,12 +123,12 @@ class CustomerGame:
 
 	def good(self, text):
 		self.mg.player.bars[3].change(self.negativeValue)
-		self.gain = self.positiveValue
+		self.gain[0] = self.positiveValue
 		self.end = True
 
 	def bad(self, text):
 		self.mg.player.bars[3].change(self.positiveValue)
-		self.gain = self.negativeValue
+		self.gain[0] = self.negativeValue
 		self.end = True
 
 	def tick(self):

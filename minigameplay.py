@@ -15,9 +15,10 @@ class MinigamePlay(Minigame):
 class AlcoholismGame:
 	def __init__(self, mg):
 		self.gameTitle = "Alcoholism!"
+		self.subtitle = "drink responsibly"
 		self.mg = mg
 		self.end = False
-		self.gain = 0
+		self.gain = [0,0,0,0]
 
 		self.drinkImages = []
 		self.drinkImages.append(pygame.image.load("pictures/empty.png","png"))
@@ -40,7 +41,7 @@ class AlcoholismGame:
 
 	def setup(self):
 		self.end = False
-		self.gain = 0
+		self.gain = [0,0,0,0]
 
 		self.buttons = []
 		self.drinks = []
@@ -67,7 +68,7 @@ class AlcoholismGame:
 		self.drinks.append({"x":x,"y":y,"img":image})
 
 	def drink(self, text):
-		self.gain += self.drinkValue * self.drinkCount
+		self.gain[3] += self.drinkValue * self.drinkCount
 		self.mg.player.drunkeness += self.drunkValue * self.drinkCount
 		self.drinks[len(self.drinks) - 1]["img"] = self.drinkImages[0]
 
@@ -109,8 +110,9 @@ class AlcoholismGame:
 class SoccerGame:
 	def __init__(self, mg):
 		self.gameTitle = "Burrito Bounce"
+		self.subtitle = "click the burrito!"
 		self.mg = mg
-		self.gain = 0
+		self.gain = [0,0,0,0]
 		self.end = False
 
 		self.image = pygame.image.load("pictures/burrito.png", "png")
@@ -126,7 +128,7 @@ class SoccerGame:
 		self.winCount = 3
 
 	def setup(self):
-		self.gain = 0
+		self.gain = [0,0,0,0]
 		self.end = False
 		self.bounceCount = 0
 
@@ -151,7 +153,7 @@ class SoccerGame:
 				self.bounceCount += 1
 
 				if (self.bounceCount >= self.winCount):
-					self.gain = 10
+					self.gain[3] = 10
 					self.end = True
 
 		if (clicked):
@@ -171,7 +173,7 @@ class SoccerGame:
 			self.burrito["xs"] = -self.burrito["xs"]
 
 		if (self.burrito["y"] > self.mg.height):
-			self.gain = -5
+			self.gain[3] = -5
 			self.end = True
 
 		self.imageRect.center = (self.burrito["x"], self.burrito["y"])
