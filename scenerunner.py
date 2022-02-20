@@ -10,7 +10,7 @@ class SceneRunner:
 		self.HEIGHT = 720
 		self.FPS = 60
 
-		self.current_scene = 0
+		self.current_scene = 1
 		self.scenes = [Game(self),MainMenu(self)]
 
 		self.pygame_setup()
