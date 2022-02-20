@@ -47,7 +47,8 @@ class Minigame:
 
 	def draw(self, font):
 		self.surface.fill((20,20,20))
-		pygame.draw.rect(self.surface, self.color, (0,0,self.width,self.height), 4)
 
 		if (not self.end):
 			self.games[self.current_game].draw(self.surface, font)
+		
+		pygame.draw.rect(self.surface, self.color, (0,0,self.width,self.height), 4)

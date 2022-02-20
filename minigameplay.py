@@ -8,3 +8,9 @@ class MinigamePlay(Minigame):
 	def __init__(self, player, surface, color):
 		Minigame.__init__(self, player, surface, color)
 		self.games = []
+
+
+
+class AlcoholismGame:
+	def __init__(self):
+		self.end = False

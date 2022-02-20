@@ -1,5 +1,6 @@
 import pygame, sys
 from pygame.locals import *
+from math import *
 from healthbar import *
 from button import *
 from minigamework import *
@@ -33,6 +34,9 @@ class Player:
 		# How many frames until decay
 		self.decayTime = 0
 		self.decayMax = 1 * self.game.sr.FPS
+
+
+		self.drunkeness = 5 * self.game.sr.FPS
 
 	def create_buttons(self):
 		self.buttonNames = ["Work", "Eat", "Study", "Play"]
@@ -99,8 +103,31 @@ class Player:
 		for bar in self.bars:
 			bar.change(self.decayAmount)
 
-	def buyFood(self):
-		pass
+	def drunkEffect(self):
+		if (self.drunkeness != 0):
+			self.drunkeness -= 1
+
+			self.gameSurfaceRect.x += randint(-5,5)
+			self.gameSurfaceRect.y += randint(-5,5)
+		else:
+			gotoX = (self.game.sr.WIDTH // 2) - self.gameSurfaceRect.width // 2
+			gotoY = 0
+			dx = gotoX - self.gameSurfaceRect.x 
+			dy = gotoY - self.gameSurfaceRect.y
+
+			if (fabs(dx) < 10):
+				self.gameSurfaceRect.x = gotoX
+			else:
+				self.gameSurfaceRect.x += (dx / (1 * self.game.sr.FPS))
+
+
+			if (fabs(dy) < 10):
+				self.gameSurfaceRect.y = gotoY
+			else:
+				self.gameSurfaceRect.y += (dy / (1 * self.game.sr.FPS))
+
+
+
 
 	def tick(self):
 		self.time += 1
@@ -111,6 +138,8 @@ class Player:
 			button.tick()
 
 		self.minigames[self.currentMinigame].tick()
+
+		self.drunkEffect()
 
 	def update_clock(self, surface, font):
 		seconds = (self.time // self.game.sr.FPS) % 60
@@ -135,6 +164,9 @@ class Player:
 	def draw(self, surface, font):
 		self.update_clock(surface, font)
 
+		self.minigames[self.currentMinigame].draw(font)
+		surface.blit(self.gameSurface, self.gameSurfaceRect)
+
 		for bar in self.bars:
 			bar.draw(surface, font)
 
@@ -142,8 +174,6 @@ class Player:
 			button.draw(surface, font)
 
 
-		self.minigames[self.currentMinigame].draw(font)
 		
-		surface.blit(self.gameSurface, self.gameSurfaceRect)
 		self.fadeSurface.set_alpha(self.get_faded_level())
 		surface.blit(self.fadeSurface, self.fadeSurfaceRect)

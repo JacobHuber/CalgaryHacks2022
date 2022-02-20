@@ -50,7 +50,7 @@ class MathGame:
 
 		for i in range(len(self.answers)):
 			buttonHeight = 40
-			buttonWidth = 60
+			buttonWidth = 100
 			colWidth = self.mg.width // 3
 			x = (colWidth // 2) - (buttonWidth // 2) + (i * colWidth)
 			y = self.mg.height - 80
