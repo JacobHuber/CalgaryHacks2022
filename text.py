@@ -19,8 +19,8 @@ class Text:
     def draw(self,surface,font,):
         title = self.font.render(self.text, True, self.colour)
         titleRect = title.get_rect()
-        titleRect.x = self.x
-        titleRect.y = self.y
+        titleRect.centerx = self.x
+        titleRect.centery = self.y
         titleRect.width = self.width
         titleRect.height = self.height
         self.sr.display_surface.blit(title,titleRect)

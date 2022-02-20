@@ -1,6 +1,7 @@
 import pygame, sys
 from pygame.locals import *
 
+
 class Button:
 	def __init__(self, text, rect, color, callback=print):
 		self.borderColor = (0,0,0)
@@ -13,7 +14,6 @@ class Button:
 		self.callback = callback
 
 		self.hovered = False
-		self.clicked = False
 
 		self.off = False
 		scale = 10
@@ -22,17 +22,18 @@ class Button:
 		self.offFontColor = self.fontColor // scaleCol
 
 	def tick(self, mouse=None):
+		global unique_Click
 		if (not self.off):
 			if (mouse is None):
 				mouse = pygame.mouse.get_pos()
 			
 			if (self.rect.collidepoint(mouse)):
 				if (pygame.mouse.get_pressed()[0]):
-					if (not self.clicked):
-						self.clicked = True
+					if (not unique_Click):
+						unique_Click = True
 						self.callback(self.text)
 				else:
-					self.clicked = False
+					unique_Click = False
 				self.hovered = True
 			else:
 				self.hovered = False

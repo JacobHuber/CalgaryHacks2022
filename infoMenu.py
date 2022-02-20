@@ -26,9 +26,9 @@ class InfoMenu:
         self.addButton(backButton)
 
         fontTitle = pygame.font.Font("font.ttf",108)
-        title = Text(self.sr,fontTitle,"How to play",(255,255,255),100,100,100,100)
+        title = Text(self.sr,fontTitle,"How to play",(255,255,255),self.sr.WIDTH/2,self.sr.HEIGHT/2-200,100,100)
         self.drawables.append(title)
 
         fontbody = pygame.font.Font("font.ttf",58)
-        body = Text(self.sr,fontbody,"This is how you play the game you idiot",(255,255,255),100,200,100,100)
+        body = Text(self.sr,fontbody,"This is how you play the game you idiot",(255,255,255),self.sr.WIDTH/2,self.sr.HEIGHT/2-100,100,100)
         self.drawables.append(body)

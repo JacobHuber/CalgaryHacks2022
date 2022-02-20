@@ -1,8 +1,13 @@
+from enum import unique
 import pygame, sys
 from pygame.locals import *
 from game import *
 from infoMenu import InfoMenu
 from mainMenu import *
+from gameOver import *
+
+global unique_Click
+unique_Click = False
 
 class SceneRunner:
 	def __init__(self):
@@ -16,6 +21,7 @@ class SceneRunner:
 		self.songName = "spookysong.ogg"
 		self.pygame_setup()
 		self.scenes = [Game(self),MainMenu(self),InfoMenu(self)]
+		self.scenes.append(GameOver(self))
 		self.main_loop()
 
 	def pygame_setup(self):

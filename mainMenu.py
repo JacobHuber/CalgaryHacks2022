@@ -40,7 +40,7 @@ class MainMenu:
         self.addButton(infoButton)
         self.addButton(exitButton)
         fontTitle = pygame.font.Font("font.ttf",108)
-        title = Text(self.sr,fontTitle,"Homework Please",(255,255,255),playButton.rect.x-17,playButton.rect.y-200,100,100)
+        title = Text(self.sr,fontTitle,"Homework Please",(255,255,255),self.sr.WIDTH/2,self.sr.HEIGHT/2-200,100,100)
         self.drawables.append(title)
         #title = self.font.render("Homework Please", True, (255,255,255))
         #titleRect = title.get_rect()
