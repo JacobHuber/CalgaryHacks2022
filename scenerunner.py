@@ -14,7 +14,7 @@ class SceneRunner:
 	def __init__(self):
 		global unique_Click
 		unique_Click = False
-		self.name = "CalgaryHacks 2022"
+		self.name = "Homework Please"
 		self.WIDTH = 1280
 		self.HEIGHT = 720
 		self.FPS = 60
