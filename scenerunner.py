@@ -30,7 +30,8 @@ class SceneRunner:
 		self.clock = pygame.time.Clock()
 		self.font = pygame.font.Font("font.ttf", 32)
 		pygame.mixer.music.load(self.songName, "ogg")
-		pygame.mixer.music.play(loops=1, fade_ms=1000)
+		pygame.mixer.music.play(loops=-1, fade_ms=1000)
+		pygame.mixer.music.set_volume(0.2)
 
 		
 		pygame.display.set_caption(self.name)
@@ -56,9 +57,13 @@ class SceneRunner:
 
 			for item in scene.drawables:
 				item.draw(self.display_surface, self.font)
-			for item in self.scenes[0].player.bars:
-				if item.value == 0:
-					self.scenes[3].updateScore()
-					self.current_scene = 3
+			
+			if (self.current_scene == 0):
+				for item in self.scenes[0].player.bars:
+					if item.value == 0:
+						self.scenes[3].updateScore()
+						self.scenes[0].create_player()
+						self.current_scene = 3
+
 			pygame.display.update()
 			self.clock.tick(self.FPS)

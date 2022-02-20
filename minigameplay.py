@@ -8,7 +8,7 @@ from button import *
 class MinigamePlay(Minigame):
 	def __init__(self, player, surface, color):
 		Minigame.__init__(self, player, surface, color)
-		self.games = [AlcoholismGame(self)]
+		self.games = [AlcoholismGame(self), SoccerGame(self)]
 
 
 
@@ -104,3 +104,77 @@ class AlcoholismGame:
 		for drink in self.drinks:
 			self.drinkRect.midbottom = (drink["x"], drink["y"])
 			surface.blit(drink["img"], self.drinkRect)
+
+class SoccerGame:
+	def __init__(self, mg):
+		self.mg = mg
+		self.gain = 0
+		self.end = False
+
+		self.image = pygame.image.load("pictures/burrito.png", "png")
+		self.imageRect = self.image.get_rect()
+
+		self.burrito = {"x": self.mg.width // 2, "y": 0, "xs": 0, "ys": 0}
+		self.gravity = 0.5
+		self.gravityCap = 10
+
+		self.mouse_down = False
+
+		self.bounceCount = 0
+		self.winCount = 3
+
+	def setup(self):
+		self.gain = 0
+		self.end = False
+		self.bounceCount = 0
+
+		xs = randint(-10, 10)
+		ys = 0
+		self.burrito = {"x": self.mg.width // 2, "y": 100, "xs": xs, "ys": ys}
+
+	def tick(self):
+		clicked = False
+
+		if (not self.mouse_down and pygame.mouse.get_pressed()[0]):
+			clicked = True
+			halfWidth = self.imageRect.width // 2
+			halfHeight = self.imageRect.height // 2
+			pos = self.mg.get_mouse()
+
+			dx = pos[0] - self.burrito["x"]
+			dy = pos[1] - self.burrito["y"]
+
+			if (fabs(dx) <= halfWidth and fabs(dy) <= halfHeight):
+				self.burrito["ys"] = -15
+				self.bounceCount += 1
+
+				if (self.bounceCount >= self.winCount):
+					self.gain = 10
+					self.end = True
+
+		if (clicked):
+			self.mouse_down = True
+
+		if (self.mouse_down and not pygame.mouse.get_pressed()[0]):
+			self.mouse_down = False
+
+		self.burrito["ys"] += self.gravity
+		if (self.burrito["ys"] >= self.gravityCap):
+			self.burrito["ys"] = self.gravityCap
+
+		self.burrito["x"] = self.burrito["x"] + self.burrito["xs"]
+		self.burrito["y"] = self.burrito["y"] + self.burrito["ys"]
+
+		if (self.burrito["x"] < self.imageRect.width // 2 or self.burrito["x"] > self.mg.width - self.imageRect.width // 2):
+			self.burrito["xs"] = -self.burrito["xs"]
+
+		if (self.burrito["y"] > self.mg.height):
+			self.gain = -5
+			self.end = True
+
+		self.imageRect.center = (self.burrito["x"], self.burrito["y"])
+
+		
+
+	def draw(self, surface, font):
+		surface.blit(self.image, self.imageRect)

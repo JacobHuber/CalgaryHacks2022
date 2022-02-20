@@ -110,8 +110,9 @@ class Player:
 			self.drunkeness -= 1
 
 			movement = max(1, self.drunkeness // self.game.sr.FPS)
+			vertical = max(1, movement // 2)
 			self.gameSurfaceRect.x += randint(-movement,movement)
-			self.gameSurfaceRect.y += randint(-movement,movement)
+			self.gameSurfaceRect.y += randint(-vertical,vertical)
 		else:
 			gotoX = (self.game.sr.WIDTH // 2) - self.gameSurfaceRect.width // 2
 			gotoY = 0
