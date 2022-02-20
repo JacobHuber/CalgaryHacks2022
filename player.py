@@ -15,6 +15,10 @@ class Player:
 		self.margin = 20 + self.buttonWidth
 
 		self.buttonColors = [(100,255,100), (255,50,50), (0,255,255), (220,180,0)]
+
+		self.fadeSurface = pygame.Surface((self.game.sr.WIDTH, self.game.sr.HEIGHT))
+		self.fadeSurfaceRect = self.fadeSurface.get_rect()
+		self.fadeSurface.fill((0,0,0))
 		
 		self.create_minigames()
 		self.create_buttons()
@@ -116,6 +120,15 @@ class Player:
 		clockTextRect.bottomright = (self.game.sr.WIDTH - 20, self.game.sr.HEIGHT - 20)
 		surface.blit(clockText, clockTextRect)
 
+	def get_faded_level(self):
+		values = []
+		for bar in self.bars:
+			values.append(bar.value)
+
+
+		level = min(min(values) / 50, 1)
+		return 255 - int(level * 255)
+
 	def draw(self, surface, font):
 		self.update_clock(surface, font)
 
@@ -129,3 +142,5 @@ class Player:
 		self.minigames[self.currentMinigame].draw(font)
 		
 		surface.blit(self.gameSurface, self.gameSurfaceRect)
+		self.fadeSurface.set_alpha(self.get_faded_level())
+		surface.blit(self.fadeSurface, self.fadeSurfaceRect)
