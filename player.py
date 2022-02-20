@@ -28,7 +28,7 @@ class Player:
 		self.create_bars()
 
 		# How much to decay each time
-		self.decayAmount = 1
+		self.decayAmount = -1
 
 		# How many frames until decay
 		self.decayTime = 0
@@ -90,14 +90,14 @@ class Player:
 
 	def end_minigame(self, gain):
 		i = self.currentMinigame
-		self.bars[i].increment(gain)
+		self.bars[i].change(gain)
 
 		for button in self.buttons:
 			button.off = False
 
 	def decayBars(self):
 		for bar in self.bars:
-			bar.decrement(self.decayAmount)
+			bar.change(self.decayAmount)
 
 	def buyFood(self):
 		pass

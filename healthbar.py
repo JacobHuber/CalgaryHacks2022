@@ -24,22 +24,14 @@ class Healthbar:
 			self.currLerpTime += 1
 
 
-	def increment(self, amount):
+	def change(self, amount):
 		self.currLerpTime = 0
 		self.lerpValue = self.value
 		self.value += amount
 		
 		if (self.value > self.max):
 			self.value = self.max
-
-		self.lerpAmount = self.value - self.lerpValue
-
-	def decrement(self, amount):
-		self.currLerpTime = 0
-		self.lerpValue = self.value
-		self.value -= amount
-
-		if (self.value < 0):
+		elif (self.value < 0):
 			self.value = 0
 
 		self.lerpAmount = self.value - self.lerpValue
