@@ -165,7 +165,7 @@ class Player:
 	def update_clock(self, surface, font):
 		seconds = (self.time // self.game.sr.FPS) % 60
 		minutes = seconds*5%60
-		hour = 12+(int(seconds/12))
+		hour = 10+(int(seconds/12))
 
 		text = f'{hour:02}' + ":" + f'{minutes:02}'
 
@@ -179,7 +179,7 @@ class Player:
 		dayTextRect = dayText.get_rect()
 		dayTextRect.bottomright = (self.game.sr.WIDTH - 20,  50)
 		surface.blit(dayText, dayTextRect)
-		if(hour == 13):
+		if(hour == 13 and self.minigames[self.currentMinigame].end):
 			self.game.sr.scenes[4].nextDay()
 			self.game.sr.current_scene = 4
 		
