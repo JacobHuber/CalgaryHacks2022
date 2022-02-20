@@ -60,6 +60,8 @@ class MathGame:
 	def check_answer(self, text):
 		if (text == str(self.answer)):
 			self.gain = self.questionValue
+		else:
+			self.gain = -self.questionValue
 		
 		self.end = True
 
