@@ -11,11 +11,10 @@ class SceneRunner:
 		self.FPS = 60
 
 		self.current_scene = 1
-		self.scenes = [Game(self),MainMenu(self)]
 
 		self.songName = "spookysong.ogg"
-
 		self.pygame_setup()
+		self.scenes = [Game(self),MainMenu(self)]
 		self.main_loop()
 
 	def pygame_setup(self):

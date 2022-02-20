@@ -3,7 +3,9 @@ from pygame.locals import *
 from healthbar import *
 from button import *
 from minigamework import *
+from minigameeat import *
 from minigamestudy import *
+from minigameplay import *
 
 class Player:
 	def __init__(self, game):
@@ -74,9 +76,9 @@ class Player:
 		self.currentMinigame = 0
 		self.minigames = []
 		self.minigames.append(MinigameWork(self, self.gameSurface,self.buttonColors[0]))
-		self.minigames.append(Minigame(self, self.gameSurface, self.buttonColors[1]))
+		self.minigames.append(MinigameEat(self, self.gameSurface, self.buttonColors[1]))
 		self.minigames.append(MinigameStudy(self, self.gameSurface,self.buttonColors[2]))
-		self.minigames.append(Minigame(self, self.gameSurface,self.buttonColors[3]))
+		self.minigames.append(MinigamePlay(self, self.gameSurface,self.buttonColors[3]))
 
 	def play_minigame(self, text):
 		i = self.buttonNames.index(text)

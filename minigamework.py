@@ -15,7 +15,8 @@ class MinigameWork(Minigame):
 class CoinGame:
 	def __init__(self, mg):
 		self.mg = mg
-		self.coinColor = (255,255,0)
+		self.coinColor = pygame.Color(255,255,0)
+		self.coinTextColor = self.coinColor // pygame.Color(3,3,3,1)
 		
 		self.amount = 4
 		self.coinValue = 3
@@ -30,7 +31,7 @@ class CoinGame:
 		self.gain = 0
 		self.coins = []
 		for i in range(self.amount):
-			r = randint(10,15)
+			r = 16
 			x = randint(r, self.mg.width-r)
 			y = randint(r, self.mg.height-r)
 			xs = randint(-5,5)
@@ -70,6 +71,10 @@ class CoinGame:
 			self.end = True
 
 	def draw(self, surface, font):
+		self.dollarSign = font.render("$", True, self.coinTextColor)
+		self.dollarSignRect = self.dollarSign.get_rect()
 		for coin in self.coins:
 			pygame.draw.circle(surface, self.coinColor, (coin["x"], coin["y"]), coin["r"])
+			self.dollarSignRect.center = (coin["x"], coin["y"] + 1)
+			surface.blit(self.dollarSign, self.dollarSignRect)
 
