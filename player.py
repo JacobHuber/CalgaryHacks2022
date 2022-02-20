@@ -32,7 +32,8 @@ class Player:
 		self.create_bars()
 
 		# How much to decay each time
-		self.decayAmount = -0.5
+		self.decayAmount = -1
+		self.timeScale = 1
 
 		# How many frames until decay
 		self.decayTime = 0
@@ -104,7 +105,7 @@ class Player:
 
 	def decayBars(self):
 		for bar in self.bars:
-			bar.change(self.decayAmount * self.day)
+			bar.change(self.decayAmount)
 
 	def drunkEffect(self):
 		if (self.drunkeness != 0):
