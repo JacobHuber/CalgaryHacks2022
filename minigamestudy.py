@@ -154,7 +154,7 @@ class TypingGame:
 		self.dum_text = list("")
 		self.current_letter = ''
 		self.current_index = 0
-		self.possibleText = [list("Type this for a B"),list("Type this for an A"),list("Where is new Zealand"),list("The mitochondria is the power house of the cell"),list("I love bean BURRITOS"),list("Wheres my chicken statue"),]
+		self.possibleText = [list("Type this for a B"),list("Type this for an A"),list("Where is New Zealand"),list("The mitochondria is the power house of the cell"),list("I LOVE BEAN BURRITOS"),list("Where is my chicken statue"),list("UCalgary Dating Sim when")]
 
 	def setup(self):
 		
