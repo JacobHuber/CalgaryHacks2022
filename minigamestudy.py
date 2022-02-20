@@ -8,8 +8,7 @@ from button import *
 class MinigameStudy(Minigame):
 	def __init__(self, player, surface, color):
 		Minigame.__init__(self, player, surface, color)
-		#self.games = [MathGame(self), GeographyGame(self)]
-		self.games = [TypingGame(self)]
+		self.games = [MathGame(self), GeographyGame(self),TypingGame(self)]
 
 def mul(a,b):
 	return a * b
