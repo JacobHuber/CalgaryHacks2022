@@ -23,6 +23,8 @@ class Player:
 		self.fadeSurface = pygame.Surface((self.game.sr.WIDTH, self.game.sr.HEIGHT))
 		self.fadeSurfaceRect = self.fadeSurface.get_rect()
 		self.fadeSurface.fill((0,0,0))
+
+		self.pressedKeys = []
 		
 		self.create_minigames()
 		self.create_buttons()
@@ -36,7 +38,7 @@ class Player:
 		self.decayMax = 1 * self.game.sr.FPS
 
 
-		self.drunkeness = 5 * self.game.sr.FPS
+		self.drunkeness = 0
 
 	def create_buttons(self):
 		self.buttonNames = ["Work", "Eat", "Study", "Play"]
@@ -107,24 +109,25 @@ class Player:
 		if (self.drunkeness != 0):
 			self.drunkeness -= 1
 
-			self.gameSurfaceRect.x += randint(-5,5)
-			self.gameSurfaceRect.y += randint(-5,5)
+			movement = max(1, self.drunkeness // self.game.sr.FPS)
+			self.gameSurfaceRect.x += randint(-movement,movement)
+			self.gameSurfaceRect.y += randint(-movement,movement)
 		else:
 			gotoX = (self.game.sr.WIDTH // 2) - self.gameSurfaceRect.width // 2
 			gotoY = 0
 			dx = gotoX - self.gameSurfaceRect.x 
 			dy = gotoY - self.gameSurfaceRect.y
 
-			if (fabs(dx) < 10):
+			if (fabs(dx) <= 10):
 				self.gameSurfaceRect.x = gotoX
 			else:
-				self.gameSurfaceRect.x += (dx / (1 * self.game.sr.FPS))
+				self.gameSurfaceRect.x += max(copysign(1, dx), (dx / (1 * self.game.sr.FPS)))
 
 
-			if (fabs(dy) < 10):
+			if (fabs(dy) <= 10):
 				self.gameSurfaceRect.y = gotoY
 			else:
-				self.gameSurfaceRect.y += (dy / (1 * self.game.sr.FPS))
+				self.gameSurfaceRect.y += max(copysign(1, dy), (dy / (1 * self.game.sr.FPS)))
 
 
 

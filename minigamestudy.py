@@ -88,7 +88,7 @@ class GeographyGame:
 		self.gain = 0
 		self.end = False
 
-		self.image = pygame.image.load("newzealand.png", "png")
+		self.image = pygame.image.load("pictures/newzealand.png", "png")
 		self.imageRect = self.image.get_rect()
 		self.imageRect.center = (self.mg.width // 2, self.mg.height // 2)
 		self.question = "What country is this?"

@@ -19,7 +19,7 @@ class ShoppingGame:
 		self.end = False
 
 		self.shoppingCartX = self.mg.width // 2
-		self.imgShoppingCart = pygame.image.load("cart.png", "png")
+		self.imgShoppingCart = pygame.image.load("pictures/cart.png", "png")
 		self.shoppingCartRect = self.imgShoppingCart.get_rect()
 		self.shoppingCartRect.bottom = self.mg.height
 
@@ -31,7 +31,7 @@ class ShoppingGame:
 		self.itemValue = 5
 
 
-		self.imgRamen = pygame.image.load("ramen.png", "png")
+		self.imgRamen = pygame.image.load("pictures/ramen.png", "png")
 		self.ramenRect = self.imgRamen.get_rect()
 		self.ramenSpeed = 5
 

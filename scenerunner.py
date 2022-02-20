@@ -41,10 +41,15 @@ class SceneRunner:
 
 			self.display_surface.fill((0,0,0))
 
+			keysThatAreDown = []
 			for event in pygame.event.get():
 				if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
 					pygame.quit()
 					sys.exit()
+				elif event.type == KEYDOWN:
+					keysThatAreDown.append(event)
+
+			self.scenes[0].player.pressedKeys = keysThatAreDown
 
 			for item in scene.tickables:
 				item.tick()
