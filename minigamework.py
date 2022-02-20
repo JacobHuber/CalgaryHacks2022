@@ -7,28 +7,8 @@ from math import *
 class MinigameWork(Minigame):
 	def __init__(self, player, surface, color):
 		Minigame.__init__(self, player, surface, color)
-
-		self.current_game = 0
 		self.games = [CoinGame(self)]
-		self.end = False
-
-	def new_game(self):
-		self.end = False
-		self.current_game = randrange(0, len(self.games))
-		self.games[self.current_game].setup()
-
-	def tick(self):
-		if (not self.end):
-			game = self.games[self.current_game]
-			game.tick()
-
-			if (game.end):
-				self.player.end_minigame(game.gain)
-				self.end = True
-
-	def draw(self, font):
-		Minigame.draw(self, font)
-		self.games[self.current_game].draw(self.surface)
+		
 
 
 
@@ -44,6 +24,7 @@ class CoinGame:
 		self.mouse_down = False
 
 		self.gain = 0
+		self.coins = []
 
 	def setup(self):
 		self.end = False

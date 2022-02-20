@@ -66,7 +66,7 @@ class Player:
 		self.gameSurface = pygame.Surface((sideLength, sideLength))
 
 
-		self.currentMinigame = 1
+		self.currentMinigame = 0
 		self.minigames = []
 		self.minigames.append(MinigameWork(self, self.gameSurface,self.buttonColors[0]))
 		self.minigames.append(Minigame(self, self.gameSurface, self.buttonColors[1]))
