@@ -148,19 +148,20 @@ class TypingGame:
 	def __init__(self,mg):
 		self.gameTitle = "Typing Test!!"
 		self.mg = mg
-		self.gain = 10
+		self.gain = 0
 		self.end = False
 		self.text = ""
 		self.dum_text = list("")
 		self.current_letter = ''
 		self.current_index = 0
-		self.possibleText = [list("Type this for an B"),list("Type this for an A"),list("Where is new Zealand"),list("The mitochondria is the power house of the cell"),list("I love bean BURRITOS"),list("Wheres my chicken statue"),]
+		self.possibleText = [list("Type this for a B"),list("Type this for an A"),list("Where is new Zealand"),list("The mitochondria is the power house of the cell"),list("I love bean BURRITOS"),list("Wheres my chicken statue"),]
 
 	def setup(self):
 		
 		self.text = choice(self.possibleText)
 		self.dum_text = list("")
 		self.end = False
+		self.gain = len(self.text)//2
 		self.current_letter = ''
 		self.current_index = 0
 		for letter in self.text:

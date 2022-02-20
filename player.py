@@ -179,6 +179,11 @@ class Player:
 		dayTextRect = dayText.get_rect()
 		dayTextRect.bottomright = (self.game.sr.WIDTH - 20,  50)
 		surface.blit(dayText, dayTextRect)
+		print(str(self.day) + " " + str(self.time) + " " + str(hour))
+		if(hour == 13):
+			self.game.sr.scenes[4].nextDay()
+			self.game.sr.current_scene = 4
+		
 
 	def get_faded_level(self):
 		values = []

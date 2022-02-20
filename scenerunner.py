@@ -5,6 +5,7 @@ from game import *
 from infoMenu import InfoMenu
 from mainMenu import *
 from gameOver import *
+from newDay import *
 
 global unique_Click
 unique_Click = False
@@ -22,6 +23,7 @@ class SceneRunner:
 		self.pygame_setup()
 		self.scenes = [Game(self),MainMenu(self),InfoMenu(self)]
 		self.scenes.append(GameOver(self))
+		self.scenes.append(NewDay(self))
 		self.main_loop()
 
 	def pygame_setup(self):
