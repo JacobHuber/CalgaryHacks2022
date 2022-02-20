@@ -129,6 +129,8 @@ class BulletHellGame:
 		self.hellTime = 0 
 		self.endHell = 5 * self.mg.player.game.sr.FPS
 
+		self.beanValue = 40
+
 	def setup(self):
 		self.beans = []
 		self.gain = [0,0,0,0]
@@ -167,10 +169,11 @@ class BulletHellGame:
 
 				self.imageRect.center = (bean["x"], bean["y"])
 				if (self.imageRect.collidepoint(self.mg.get_mouse())):
+					self.gain[1] = int(self.beanValue * (self.hellTime / self.endHell))
 					self.end = True
 
 			if (self.hellTime > self.endHell):
-				self.gain[1] = 20
+				self.gain[1] = self.beanValue
 				self.end = True
 
 		self.hellTime += 1
@@ -199,7 +202,7 @@ class FreeBread:
 
 		self.breadScreen = 2 * self.mg.player.game.sr.FPS
 		self.breadCount = 0
-		self.breadValue = 20
+		self.breadValue = 25
 
 		self.angle = 0
 

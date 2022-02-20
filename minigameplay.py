@@ -31,7 +31,7 @@ class AlcoholismGame:
 		self.drinkCount = 0
 		self.drinkMax = len(self.drinkImages) - 1
 
-		self.drinkValue = 4
+		self.drinkValue = 5
 		self.drunkValue = 3 * self.mg.player.game.sr.FPS
 
 		self.buttons = []
@@ -72,7 +72,7 @@ class AlcoholismGame:
 		self.mg.player.drunkeness += self.drunkValue * self.drinkCount
 		self.drinks[len(self.drinks) - 1]["img"] = self.drinkImages[0]
 
-		if (self.drinkCount < self.drinkValue):
+		if (self.drinkCount < len(self.drinkImages) - 1):
 			self.add_drink()
 		else:
 			self.end = True

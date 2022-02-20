@@ -8,7 +8,10 @@ from button import *
 class MinigameStudy(Minigame):
 	def __init__(self, player, surface, color):
 		Minigame.__init__(self, player, surface, color)
-		self.games = [MathGame(self), HardMath(self), GeographyGame(self),TypingGame(self)]
+		self.games = [MathGame(self), HardMath(self), TypingGame(self)]
+		self.games += self.games
+		self.games += self.games
+		self.games.append(GeographyGame(self))
 
 def mul(a,b):
 	return a * b
@@ -152,7 +155,7 @@ class GeographyGame:
 		self.subtitle = "which country could it be?"
 		self.mg = mg
 		
-		self.questionValue = 3
+		self.questionValue = 30
 
 		self.mouse_down = False
 		self.gain = [0,0,0,0]

@@ -20,7 +20,7 @@ class CoinGame:
 		self.coinTextColor = self.coinColor // pygame.Color(3,3,3,1)
 		
 		self.amount = 4
-		self.coinValue = 3
+		self.coinValue = 5
 		self.coins = []
 
 		self.mouse_down = False
@@ -187,7 +187,7 @@ class DeliveryGame:
 		self.coinCount = 4
 		self.coinRadius = 16
 
-		self.coinValue = 10
+		self.coinValue = 15
 
 	def setup(self):
 		self.end = False

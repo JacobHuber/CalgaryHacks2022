@@ -27,6 +27,7 @@ class NewDay:
         self.tickables = []
         self.drawables = []
         self.sr.scenes[0].player.day+=1
+        self.sr.scenes[0].player.decayAmount *= (1 + (1 / 100))
         self.sr.scenes[0].player.time = 0
         self.create_buttons()
 
