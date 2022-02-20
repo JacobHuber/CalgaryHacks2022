@@ -60,7 +60,7 @@ class Player:
 
 	def create_bars(self):
 		self.barNames = ["Money", "Food", "Grades", "Happiness"]
-		self.barValues = [(60, 100), (100, 100), (50, 100), (10, 100)]
+		self.barValues = [(60, 100), (100, 100), (50, 100), (50, 100)]
 
 		mid_y = self.game.sr.HEIGHT // 2
 
