@@ -22,10 +22,14 @@ class Minigame:
 
 		self.BIGFONT = pygame.font.Font("font.ttf", 64)
 
+		self.lastGains = [0,0,0,0]
 
 		self.shouldDraw = False
 
+		self.firstDraw = True
+
 	def new_game(self):
+		self.firstDraw = False
 		self.end = False
 		self.showTitle = True
 		self.shouldDraw = False
@@ -57,6 +61,7 @@ class Minigame:
 				self.shouldDraw = True
 
 				if (game.end):
+					self.lastGains = game.gain
 					self.player.end_minigame(game.gain)
 					self.end = True
 
@@ -83,6 +88,19 @@ class Minigame:
 		self.subtitleRect.center = (self.width // 2, self.height // 2 + 40)
 		self.surface.blit(self.subtitle, self.subtitleRect)
 
+	def show_gains(self, font):
+		for i in range(len(self.player.buttonColors)):
+			msg = str(self.lastGains[i])
+			if (self.lastGains[i] > 0):
+				msg = "+" + msg
+			sy = self.height // 2 - 75
+			dy = 50
+			self.title = self.BIGFONT.render(msg, True, self.player.buttonColors[i])
+			self.titleRect = self.title.get_rect()
+			self.titleRect.center = (self.width // 2, sy + dy * i)
+			self.surface.blit(self.title, self.titleRect)
+
+
 	def draw(self, font):
 		self.surface.fill((20,20,20))
 
@@ -92,6 +110,9 @@ class Minigame:
 			elif (self.shouldDraw):
 				self.games[self.current_game].draw(self.surface, font)
 		else:
-			self.pick_task_screen(font)
+			if (self.firstDraw):
+				self.pick_task_screen(font)
+			else:
+				self.show_gains(font)
 		
 		pygame.draw.rect(self.surface, self.color, (0,0,self.width,self.height), 4)

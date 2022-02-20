@@ -8,7 +8,7 @@ from button import *
 class MinigamePlay(Minigame):
 	def __init__(self, player, surface, color):
 		Minigame.__init__(self, player, surface, color)
-		self.games = [AlcoholismGame(self), SoccerGame(self)]
+		self.games = [AlcoholismGame(self), SoccerGame(self), SprintGame(self)]
 
 
 
@@ -184,3 +184,92 @@ class SoccerGame:
 
 	def draw(self, surface, font):
 		surface.blit(self.image, self.imageRect)
+
+
+class SprintGame:
+	def __init__(self, mg):
+		self.gameTitle = "Sprint"
+		self.subtitle = "mash SPACE a LOT"
+
+		self.mg = mg
+		self.end = False
+		self.gain = [0,0,0,0]
+
+		self.spaceAmount = 0
+		self.spaceValue = 1.5
+
+		self.carX = -100
+		self.frames = []
+		self.frameCount = 10
+		self.currentFrame = 0
+		for i in range(self.frameCount):
+			self.frames.append(pygame.image.load("pictures/run/run" + str(i + 1) + ".png", "png"))
+		self.imageRect = self.frames[0].get_rect()
+		self.imageRect.bottomleft = (self.carX, self.mg.height)
+		self.image = self.frames[self.currentFrame]
+
+		self.timer = 2 * self.mg.player.game.sr.FPS
+		self.currTime = 0
+
+		self.mashTime = True
+
+		self.texts = ["uhhhh..", "OKAY!", "ZOOOM"]
+		self.text = self.texts[0]
+
+	def setup(self):
+		self.end = False
+		self.mashTime = True
+		self.gain = [0,0,0,0]
+
+		self.spaceAmount = 0
+		self.currTime = 0
+		self.carX = -100
+
+	def tick(self):
+		if (self.mashTime):
+			if (self.currTime >= self.timer):
+				self.mashTime = False
+			else:
+				self.currTime += 1
+
+				for event in self.mg.player.pressedKeys:
+					if (event.key == K_SPACE):
+						self.spaceAmount += 1
+		else:
+			speed = 1.5 * (self.spaceAmount + 1)
+			if (speed < 10):
+				self.text = self.texts[0]
+			elif (speed < 20):
+				self.text = self.texts[1]
+			else:
+				self.text = self.texts[2]
+
+			self.carX += speed
+			self.imageRect.x = self.carX
+
+			if (self.mg.player.time % 4 == 0):
+				self.currentFrame = (self.currentFrame + 1) % self.frameCount
+			self.image = self.frames[self.currentFrame]
+
+			if (self.carX > self.mg.width):
+				self.gain = [0,0,0, int(self.spaceAmount * self.spaceValue)]
+				self.end = True
+
+	def draw(self, surface, font):
+		if (self.mashTime):
+			self.mashText = self.mg.BIGFONT.render(str(self.spaceAmount), True, (255,255,255))
+			self.mashTextRect = self.mashText.get_rect()
+			self.mashTextRect.center = (self.mg.width // 2, self.mg.height // 3)
+			surface.blit(self.mashText, self.mashTextRect)
+			
+			self.mashText = font.render("press SPACE", True, (255,255,255))
+			self.mashTextRect = self.mashText.get_rect()
+			self.mashTextRect.center = (self.mg.width // 2, self.mg.height // 3 + 80)
+			surface.blit(self.mashText, self.mashTextRect)
+			
+		else:
+			self.mashText = self.mg.BIGFONT.render(self.text, True, (255,255,255))
+			self.mashTextRect = self.mashText.get_rect()
+			self.mashTextRect.center = (self.mg.width // 2, self.mg.height // 3)
+			surface.blit(self.mashText, self.mashTextRect)
+			surface.blit(self.image, self.imageRect)

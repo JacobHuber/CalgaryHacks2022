@@ -32,7 +32,7 @@ class CoinGame:
 		self.gain = [0,0,0,0]
 		self.coins = []
 		for i in range(self.amount):
-			r = 16
+			r = 20
 			x = randint(r, self.mg.width-r)
 			y = randint(r, self.mg.height-r)
 			xs = randint(-5,5)
@@ -122,12 +122,12 @@ class CustomerGame:
 		self.buttons.append(badBtn)
 
 	def good(self, text):
-		self.mg.player.bars[3].change(self.negativeValue)
+		self.gain[3] = self.negativeValue
 		self.gain[0] = self.positiveValue
 		self.end = True
 
 	def bad(self, text):
-		self.mg.player.bars[3].change(self.positiveValue)
+		self.gain[3] = self.positiveValue
 		self.gain[0] = self.negativeValue
 		self.end = True
 
@@ -163,7 +163,7 @@ class DeliveryGame:
 		self.gain = [0,0,0,0]
 		self.end = False
 
-		self.coinColor = pygame.Color(255,255,0)
+		self.coinColor = pygame.Color(0,255,0)
 		self.coinTextColor = self.coinColor // pygame.Color(3,3,3,1)
 
 		self.image = pygame.image.load("pictures/car.png", "png")
@@ -187,7 +187,7 @@ class DeliveryGame:
 		self.coinCount = 4
 		self.coinRadius = 16
 
-		self.coinValue = 5
+		self.coinValue = 10
 
 	def setup(self):
 		self.end = False
@@ -233,8 +233,15 @@ class DeliveryGame:
 		self.car["dir"] = self.car["dir"] % 360
 
 
+		if (self.car["x"] < 0 or self.car["x"] > self.mg.width):
+			self.car["speed"] = -self.car["speed"]
+
+		if (self.car["y"] < 0 or self.car["y"] > self.mg.height):
+			self.car["speed"] = -self.car["speed"]
+
 		dx = cos(radians(self.car["dir"])) * self.car["speed"]
 		dy = sin(radians(self.car["dir"])) * self.car["speed"]
+
 
 		self.car["x"] += dx
 		self.car["y"] -= dy
@@ -257,7 +264,7 @@ class DeliveryGame:
 		self.dollarSign = font.render("$", True, self.coinTextColor)
 		self.dollarSignRect = self.dollarSign.get_rect()
 		for coin in self.coins:
-			pygame.draw.circle(surface, (255,255,0), coin, self.coinRadius)
+			pygame.draw.circle(surface, self.coinColor, coin, self.coinRadius)
 			self.dollarSignRect.center = (coin[0], coin[1] + 1)
 			surface.blit(self.dollarSign, self.dollarSignRect)
 

@@ -7,7 +7,7 @@ from math import *
 class MinigameEat(Minigame):
 	def __init__(self, player, surface, color):
 		Minigame.__init__(self, player, surface, color)
-		self.games = [ShoppingGame(self), BulletHellGame(self)]
+		self.games = [ShoppingGame(self), BulletHellGame(self), FreeBread(self)]
 
 
 
@@ -113,8 +113,8 @@ class ShoppingGame:
 
 class BulletHellGame:
 	def __init__(self, mg):
-		self.gameTitle = "Who's throwing these cans?"
-		self.subtitle = "you are the mouse. DODGE!"
+		self.gameTitle = "DODGE"
+		self.subtitle = "who's throwing all these cans?"
 		self.mg = mg
 		self.gain = [0,0,0,0]
 		self.end = False
@@ -127,7 +127,7 @@ class BulletHellGame:
 
 		self.beginHell = 0.4 * self.mg.player.game.sr.FPS
 		self.hellTime = 0 
-		self.endHell = 6 * self.mg.player.game.sr.FPS
+		self.endHell = 5 * self.mg.player.game.sr.FPS
 
 	def setup(self):
 		self.beans = []
@@ -167,7 +167,6 @@ class BulletHellGame:
 
 				self.imageRect.center = (bean["x"], bean["y"])
 				if (self.imageRect.collidepoint(self.mg.get_mouse())):
-					self.gain[1] = -10
 					self.end = True
 
 			if (self.hellTime > self.endHell):
@@ -181,3 +180,45 @@ class BulletHellGame:
 		for bean in self.beans:
 			self.imageRect.center = (bean["x"], bean["y"])
 			surface.blit(self.image, self.imageRect)
+
+
+class FreeBread:
+	def __init__(self, mg):
+		self.gameTitle = "Free Bread!"
+		self.subtitle = "It's probably? good!"
+
+		self.mg = mg
+		self.gain = [0,0,0,0]
+		self.end = False
+
+
+		self.image = pygame.image.load("pictures/bread.png", "png")
+		self.toDraw = None
+		self.imageRect = self.image.get_rect()
+		self.imageRect.center = (self.mg.width // 2, self.mg.height // 2)
+
+		self.breadScreen = 2 * self.mg.player.game.sr.FPS
+		self.breadCount = 0
+		self.breadValue = 20
+
+		self.angle = 0
+
+	def setup(self):
+		self.gain = [0,0,0,0]
+		self.end = False
+		self.breadCount = 0
+		self.angle = randint(0, 180)
+
+	def tick(self):
+		self.breadCount += 1
+		self.angle += 3
+
+		if (self.breadCount >= self.breadScreen):
+			self.end = True
+			self.gain = [0,self.breadValue,0,0]
+
+	def draw(self, surface, font):
+		self.toDraw = pygame.transform.rotate(self.image, self.angle)
+		self.imageRect = self.toDraw.get_rect()
+		self.imageRect.center = (self.mg.width // 2, self.mg.height // 2)
+		surface.blit(self.toDraw, self.imageRect)
