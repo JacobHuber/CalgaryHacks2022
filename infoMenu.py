@@ -12,12 +12,23 @@ class InfoMenu:
         self.sr = sr
         self.create_buttons()
 
+    def changeMain(self,text):
+        self.sr.current_scene = 1
+
+    def addButton(self,buttonAdd):
+        self.tickables.append(buttonAdd)
+        self.drawables.append(buttonAdd)
+
 
     def create_buttons(self):
-        playButton = Button("Back", pygame.Rect(self.sr.WIDTH-100, self.sr.HEIGHT-100, 400, 100), (100, 150, 20), self.changeMain)
+        backButton = Button("Back", pygame.Rect(self.sr.WIDTH-450, self.sr.HEIGHT-150, 400, 100), (100, 150, 20), self.changeMain)
     
-        self.addButton(playButton)
+        self.addButton(backButton)
 
         fontTitle = pygame.font.Font("font.ttf",108)
-        title = Text(self.sr,fontTitle,"Homework Please",(255,255,255),playButton.rect.x-17,playButton.rect.y-200,100,100)
+        title = Text(self.sr,fontTitle,"How to play",(255,255,255),100,100,100,100)
         self.drawables.append(title)
+
+        fontbody = pygame.font.Font("font.ttf",58)
+        body = Text(self.sr,fontbody,"This is how you play the game you idiot",(255,255,255),100,200,100,100)
+        self.drawables.append(body)

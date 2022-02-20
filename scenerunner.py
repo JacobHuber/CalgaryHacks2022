@@ -1,6 +1,7 @@
 import pygame, sys
 from pygame.locals import *
 from game import *
+from infoMenu import InfoMenu
 from mainMenu import *
 
 class SceneRunner:
@@ -14,7 +15,7 @@ class SceneRunner:
 
 		self.songName = "spookysong.ogg"
 		self.pygame_setup()
-		self.scenes = [Game(self),MainMenu(self)]
+		self.scenes = [Game(self),MainMenu(self),InfoMenu(self)]
 		self.main_loop()
 
 	def pygame_setup(self):
