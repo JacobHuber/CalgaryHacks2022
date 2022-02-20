@@ -14,10 +14,11 @@ class Player:
 		self.buttonHeight = 60
 		self.margin = 20 + self.buttonWidth
 
+		self.buttonColors = [(100,255,100), (255,50,50), (0,255,255), (220,180,0)]
 		
+		self.create_minigames()
 		self.create_buttons()
 		self.create_bars()
-		self.create_minigames()
 
 		# How much to decay each time
 		self.decayAmount = 1
@@ -28,8 +29,7 @@ class Player:
 
 	def create_buttons(self):
 		self.buttonNames = ["Work", "Eat", "Study", "Play"]
-		self.buttonColors = [(100,255,100), (255,50,50), (0,255,255), (220,180,0)]
-		self.buttonCallback = [print, print, print, print]
+		self.buttonCallback = self.play_minigame
 
 		mid_y = self.game.sr.HEIGHT // 2
 
@@ -41,7 +41,7 @@ class Player:
 
 		self.buttons = []
 		for i in range(len(self.buttonNames)):
-			newButton = Button(self.buttonNames[i], pygame.Rect(start_x, start_y + self.buttonHeight * i, self.buttonWidth, self.buttonHeight), self.buttonColors[i], self.buttonCallback[i])
+			newButton = Button(self.buttonNames[i], pygame.Rect(start_x, start_y + self.buttonHeight * i, self.buttonWidth, self.buttonHeight), self.buttonColors[i], self.buttonCallback)
 			self.buttons.append(newButton)
 
 	def create_bars(self):
@@ -64,15 +64,29 @@ class Player:
 		sideLength = min(self.game.sr.HEIGHT, self.game.sr.WIDTH - self.margin * 2)
 		self.gameSurfaceRect = pygame.Rect( (self.game.sr.WIDTH // 2) - sideLength // 2, 0, sideLength, sideLength )
 		self.gameSurface = pygame.Surface((sideLength, sideLength))
-		self.gameSurface.fill((20,20,20))
 
 
 		self.currentMinigame = 1
 		self.minigames = []
-		self.minigames.append(MinigameWork(self.buttonColors[0]))
-		self.minigames.append(Minigame(self.buttonColors[1]))
-		self.minigames.append(Minigame(self.buttonColors[2]))
-		self.minigames.append(Minigame(self.buttonColors[3]))
+		self.minigames.append(MinigameWork(self, self.gameSurface,self.buttonColors[0]))
+		self.minigames.append(Minigame(self, self.gameSurface, self.buttonColors[1]))
+		self.minigames.append(Minigame(self, self.gameSurface,self.buttonColors[2]))
+		self.minigames.append(Minigame(self, self.gameSurface,self.buttonColors[3]))
+
+	def play_minigame(self, text):
+		i = self.buttonNames.index(text)
+		self.currentMinigame = i
+		self.minigames[i].new_game()
+
+		for button in self.buttons:
+			button.off = True
+
+	def end_minigame(self, gain):
+		i = self.currentMinigame
+		self.bars[i].increment(gain)
+
+		for button in self.buttons:
+			button.off = False
 
 	def decayBars(self):
 		for bar in self.bars:
@@ -89,10 +103,7 @@ class Player:
 		for button in self.buttons:
 			button.tick()
 
-			if (pygame.mouse.get_pressed()[0]):
-				button.off = True
-			else:
-				button.off = False
+		self.minigames[self.currentMinigame].tick()
 
 	def update_clock(self, surface, font):
 		seconds = (self.time // self.game.sr.FPS) % 60
@@ -114,7 +125,7 @@ class Player:
 		for button in self.buttons:
 			button.draw(surface, font)
 
-		
-		self.minigames[self.currentMinigame].draw(self.gameSurface, font)
+
+		self.minigames[self.currentMinigame].draw(font)
 		
 		surface.blit(self.gameSurface, self.gameSurfaceRect)
