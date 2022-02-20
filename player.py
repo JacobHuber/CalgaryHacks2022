@@ -60,7 +60,7 @@ class Player:
 
 	def create_bars(self):
 		self.barNames = ["Money", "Food", "Grades", "Happiness"]
-		self.barValues = [(60, 100), (100, 100), (50, 100), (10, 100)]
+		self.barValues = [(60, 100), (100, 100), (50, 100), (50, 100)]
 
 		mid_y = self.game.sr.HEIGHT // 2
 
@@ -112,8 +112,24 @@ class Player:
 
 			movement = max(1, self.drunkeness // self.game.sr.FPS)
 			vertical = max(1, movement // 2)
-			self.gameSurfaceRect.x += randint(-movement,movement)
-			self.gameSurfaceRect.y += randint(-vertical,vertical)
+			xs = randint(-movement,movement)
+			ys = randint(-vertical,vertical)
+
+
+			dy = self.game.sr.HEIGHT // 2 - self.gameSurfaceRect.centery
+			heightPortion = 100 #self.game.sr.HEIGHT // 4
+			if (fabs(dy) > heightPortion):
+				ys = copysign(ys, dy)
+
+
+
+			dx = self.game.sr.WIDTH // 2 - self.gameSurfaceRect.centerx
+			thirdWidth = self.game.sr.WIDTH // 3
+			if (fabs(dx) > thirdWidth):
+				xs = copysign(xs, dx)
+
+			self.gameSurfaceRect.x += xs
+			self.gameSurfaceRect.y += ys
 		else:
 			gotoX = (self.game.sr.WIDTH // 2) - self.gameSurfaceRect.width // 2
 			gotoY = 0

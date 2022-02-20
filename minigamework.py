@@ -13,6 +13,8 @@ class MinigameWork(Minigame):
 class CoinGame:
 	def __init__(self, mg):
 		self.mg = mg
+		self.gameTitle = "Coins!"
+
 		self.coinColor = pygame.Color(255,255,0)
 		self.coinTextColor = self.coinColor // pygame.Color(3,3,3,1)
 		
@@ -86,6 +88,7 @@ class CustomerGame:
 		self.mg = mg
 		self.gain = 0
 		self.end = False
+		self.gameTitle = "Customer Service"
 
 		self.imgCustomer = pygame.image.load("pictures/customer.png", "png")
 		self.customerRect = self.imgCustomer.get_rect()
@@ -95,6 +98,9 @@ class CustomerGame:
 		self.isTalking = False
 		self.customerY = self.mg.height + 100
 		self.buttons = []
+
+		self.positiveValue = 10
+		self.negativeValue = -3
 
 	def setup(self):
 		self.customerY = self.mg.height + 100
@@ -114,13 +120,13 @@ class CustomerGame:
 		self.buttons.append(badBtn)
 
 	def good(self, text):
-		self.mg.player.bars[3].change(-5)
-		self.gain = 5
+		self.mg.player.bars[3].change(self.negativeValue)
+		self.gain = self.positiveValue
 		self.end = True
 
 	def bad(self, text):
-		self.mg.player.bars[3].change(5)
-		self.gain = -5
+		self.mg.player.bars[3].change(self.positiveValue)
+		self.gain = self.negativeValue
 		self.end = True
 
 	def tick(self):

@@ -15,6 +15,7 @@ class MinigameEat(Minigame):
 class ShoppingGame:
 	def __init__(self, mg):
 		self.mg = mg
+		self.gameTitle = "Breakfast Lunch and Dinner"
 		self.gain = 0
 		self.end = False
 
@@ -111,6 +112,7 @@ class ShoppingGame:
 
 class BulletHellGame:
 	def __init__(self, mg):
+		self.gameTitle = "Who's throwing these cans?"
 		self.mg = mg
 		self.gain = 0
 		self.end = False

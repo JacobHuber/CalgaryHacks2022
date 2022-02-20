@@ -17,38 +17,62 @@ class Minigame:
 		self.end = True
 		self.games = []
 
+		self.titleTime = 0
+		self.titleMax = 0.8 * self.player.game.sr.FPS
+
+
+		self.shouldDraw = False
+
 	def new_game(self):
 		self.end = False
+		self.showTitle = True
+		self.shouldDraw = False
+		self.titleTime = 0
 		self.current_game = randrange(0, len(self.games))
 		self.games[self.current_game].setup()
 
 	def get_mouse(self):
 		mouse = pygame.mouse.get_pos()
 		left = self.player.gameSurfaceRect.left
-		right = self.player.gameSurfaceRect.right
 		x = mouse[0] - left
-		x = min(x, right)
+		x = min(x, self.width)
 
 		top = self.player.gameSurfaceRect.top
-		bottom = self.player.gameSurfaceRect.bottom
 		y = mouse[1] - top
-		y = min(y, bottom)
+		y = min(y, self.height)
 
 		return (x,y)
 
 	def tick(self):
 		if (not self.end):
-			game = self.games[self.current_game]
-			game.tick()
+			if (self.showTitle):
+				self.titleTime += 1
+				if (self.titleTime >= self.titleMax):
+					self.showTitle = False
+			else:
+				game = self.games[self.current_game]
+				game.tick()
+				self.shouldDraw = True
 
-			if (game.end):
-				self.player.end_minigame(game.gain)
-				self.end = True
+				if (game.end):
+					self.player.end_minigame(game.gain)
+					self.end = True
+
+	def draw_title_screen(self, font):
+		game = self.games[self.current_game]
+		self.title = font.render(game.gameTitle, True, (255,255,255))
+		self.titleRect = self.title.get_rect()
+		self.titleRect.center = (self.width // 2, self.height // 2)
+		self.surface.blit(self.title, self.titleRect)
+
 
 	def draw(self, font):
 		self.surface.fill((20,20,20))
 
 		if (not self.end):
-			self.games[self.current_game].draw(self.surface, font)
+			if (self.showTitle):
+				self.draw_title_screen(font)
+			elif (self.shouldDraw):
+				self.games[self.current_game].draw(self.surface, font)
 		
 		pygame.draw.rect(self.surface, self.color, (0,0,self.width,self.height), 4)

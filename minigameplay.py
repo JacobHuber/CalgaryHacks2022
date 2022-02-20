@@ -14,6 +14,7 @@ class MinigamePlay(Minigame):
 
 class AlcoholismGame:
 	def __init__(self, mg):
+		self.gameTitle = "Alcoholism!"
 		self.mg = mg
 		self.end = False
 		self.gain = 0
@@ -107,6 +108,7 @@ class AlcoholismGame:
 
 class SoccerGame:
 	def __init__(self, mg):
+		self.gameTitle = "Burrito Bounce"
 		self.mg = mg
 		self.gain = 0
 		self.end = False

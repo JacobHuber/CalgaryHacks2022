@@ -21,7 +21,8 @@ def sub(a,b):
 
 class MathGame:
 	def __init__(self, mg):
-		self.mg = mg		
+		self.mg = mg
+		self.gameTitle = "Everyone loves Math"
 		self.questionValue = 10
 
 		self.gain = 0
@@ -80,6 +81,7 @@ class MathGame:
 
 class GeographyGame:
 	def __init__(self, mg):
+		self.gameTitle = "New Zealand"
 		self.mg = mg
 		
 		self.questionValue = 3
@@ -144,6 +146,7 @@ class GeographyGame:
 
 class TypingGame:
 	def __init__(self,mg):
+		self.gameTitle = "Typing Test!!"
 		self.mg = mg
 		self.gain = 10
 		self.end = False
