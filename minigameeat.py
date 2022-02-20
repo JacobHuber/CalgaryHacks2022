@@ -30,7 +30,7 @@ class ShoppingGame:
 		self.cartSpeed = 10
 
 
-		self.itemValue = 5
+		self.itemValue = 10
 
 
 		self.imgRamen = pygame.image.load("pictures/ramen.png", "png")

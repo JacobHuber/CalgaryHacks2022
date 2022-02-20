@@ -120,12 +120,14 @@ class SoccerGame:
 
 		self.burrito = {"x": self.mg.width // 2, "y": 0, "xs": 0, "ys": 0}
 		self.gravity = 0.5
-		self.gravityCap = 10
+		self.gravityCap = 20
 
 		self.mouse_down = False
 
 		self.bounceCount = 0
-		self.winCount = 3
+		self.winCount = 10
+
+		self.gainAmount = 5
 
 	def setup(self):
 		self.gain = [0,0,0,0]
@@ -153,7 +155,7 @@ class SoccerGame:
 				self.bounceCount += 1
 
 				if (self.bounceCount >= self.winCount):
-					self.gain[3] = 10
+					self.gain[3] = self.bounceCount * self.gainAmount
 					self.end = True
 
 		if (clicked):
@@ -173,7 +175,7 @@ class SoccerGame:
 			self.burrito["xs"] = -self.burrito["xs"]
 
 		if (self.burrito["y"] > self.mg.height):
-			self.gain[3] = -5
+			self.gain[3] = self.bounceCount * self.gainAmount
 			self.end = True
 
 		self.imageRect.center = (self.burrito["x"], self.burrito["y"])

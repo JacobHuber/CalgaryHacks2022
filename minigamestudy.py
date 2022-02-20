@@ -9,6 +9,7 @@ class MinigameStudy(Minigame):
 	def __init__(self, player, surface, color):
 		Minigame.__init__(self, player, surface, color)
 		self.games = [MathGame(self), GeographyGame(self),TypingGame(self)]
+		self.games = [HardMath(self)]
 
 def mul(a,b):
 	return a * b
@@ -48,6 +49,72 @@ class MathGame:
 		self.answers.append(self.answer)
 		self.answers.append(randint(2,81))
 		self.answers.append(randint(2,81))
+		shuffle(self.answers)
+
+		for i in range(len(self.answers)):
+			buttonHeight = 40
+			buttonWidth = 100
+			colWidth = self.mg.width // 3
+			x = (colWidth // 2) - (buttonWidth // 2) + (i * colWidth)
+			y = self.mg.height - 80
+			button = Button(str(self.answers[i]), (x, y, buttonWidth, buttonHeight), (0,0,0), self.check_answer)
+			self.buttons.append(button)
+
+	def check_answer(self, text):
+		if (text == str(self.answer)):
+			self.gain[2] = self.questionValue
+		else:
+			self.gain[2] = -self.questionValue
+		
+		self.end = True
+
+	def tick(self):
+		for button in self.buttons:
+			button.tick(self.mg.get_mouse())
+
+	def draw(self, surface, font):
+		self.answerText = font.render(self.question, True, (255,255,255))
+		self.answerTextRect = self.answerText.get_rect()
+		self.answerTextRect.center = (self.mg.width // 2, self.mg.height // 3)
+		surface.blit(self.answerText, self.answerTextRect)
+
+		for button in self.buttons:
+			button.draw(surface, font)
+
+class HardMath:
+	def __init__(self, mg):
+		self.gameTitle = "AlgeBruh"
+		self.subtitle = "Now it's a little harder!"
+		self.questionValue = 20
+		self.mg = mg
+		self.gain = [0,0,0,0]
+		self.end = False
+
+		self.question = ""
+		self.answer = 0
+		self.answers = []
+		self.buttons = []
+
+	def setup(self):
+		self.end = False
+		self.gain = [0,0,0,0]
+		self.answers = []
+		self.buttons = []
+
+		a = randint(1,7) # coefficient
+		b = randint(1,7) # term
+		c = randint(1,7) # rhs
+
+		operators = [(add, "+"), (sub, "-")]
+		op = choice(operators)
+		other = operators[(operators.index(op) + 1) % len(operators)]
+		c = op[0]((c * a), b)
+
+		self.answer = int(other[0](c ,b) / a)
+		self.question = "{0}a {1} {2} = {3}".format(a,op[1],b,c)
+		self.answers.append(self.answer)
+		self.answers.append(randint(1,10))
+		self.answers.append(randint(1,10))
 		shuffle(self.answers)
 
 		for i in range(len(self.answers)):

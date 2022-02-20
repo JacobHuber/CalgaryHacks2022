@@ -72,6 +72,16 @@ class Minigame:
 		self.subtitleRect.center = (self.width // 2, self.height // 2 + 40)
 		self.surface.blit(self.subtitle, self.subtitleRect)
 
+	def pick_task_screen(self, font):
+		self.title = self.BIGFONT.render("Pick a Task!", True, (255,255,255))
+		self.titleRect = self.title.get_rect()
+		self.titleRect.center = (self.width // 2, self.height // 2)
+		self.surface.blit(self.title, self.titleRect)
+
+		self.subtitle = font.render("don't let your bars drain", True, (255,255,255))
+		self.subtitleRect = self.subtitle.get_rect()
+		self.subtitleRect.center = (self.width // 2, self.height // 2 + 40)
+		self.surface.blit(self.subtitle, self.subtitleRect)
 
 	def draw(self, font):
 		self.surface.fill((20,20,20))
@@ -81,5 +91,7 @@ class Minigame:
 				self.draw_title_screen(font)
 			elif (self.shouldDraw):
 				self.games[self.current_game].draw(self.surface, font)
+		else:
+			self.pick_task_screen(font)
 		
 		pygame.draw.rect(self.surface, self.color, (0,0,self.width,self.height), 4)

@@ -8,7 +8,7 @@ from button import *
 class MinigameWork(Minigame):
 	def __init__(self, player, surface, color):
 		Minigame.__init__(self, player, surface, color)
-		self.games = [CoinGame(self), CustomerGame(self)]
+		self.games = [CoinGame(self), CustomerGame(self), DeliveryGame(self)]
 
 class CoinGame:
 	def __init__(self, mg):
@@ -155,3 +155,113 @@ class CustomerGame:
 			self.answerTextRect.center = (self.mg.width // 2, self.customerRect.top - 40)
 			surface.blit(self.answerText, self.answerTextRect)
 
+class DeliveryGame:
+	def __init__(self, mg):
+		self.gameTitle = "Uber Eats"
+		self.subtitle = "WASD to MOVE"
+		self.mg = mg
+		self.gain = [0,0,0,0]
+		self.end = False
+
+		self.coinColor = pygame.Color(255,255,0)
+		self.coinTextColor = self.coinColor // pygame.Color(3,3,3,1)
+
+		self.image = pygame.image.load("pictures/car.png", "png")
+		self.imageRect = self.image.get_rect()
+
+		self.carRot = pygame.image.load("pictures/car.png", "png")
+
+		self.car = {}
+
+		self.accel = 0.2
+		self.topSpeed = 15
+
+		self.turnSpeed = 3
+
+
+		self.target = (0,0)
+		self.targetRadius = 50
+
+		self.coins = []
+		self.collected = 0
+		self.coinCount = 4
+		self.coinRadius = 16
+
+		self.coinValue = 5
+
+	def setup(self):
+		self.end = False
+		self.gain = [0,0,0,0]
+		self.coins = []
+		self.collected = 0
+
+		x = self.mg.width // 2
+		y = self.mg.height - 40
+		d = 0
+		speed = 0
+
+		self.imageRect = self.image.get_rect()
+		self.car = {"x":x, "y":y, "dir":d, "speed":speed}
+		self.target = (randint(self.targetRadius, self.mg.width - self.targetRadius), randint(self.targetRadius, self.mg.height - self.targetRadius))
+
+		for i in range(self.coinCount):
+			x = randint(self.coinRadius, self.mg.width-self.coinRadius)
+			y = randint(self.coinRadius, self.mg.height-self.coinRadius)
+			
+			self.coins.append((x,y))
+
+
+	def car_movement(self):
+		if (pygame.key.get_pressed()[K_w]):
+			self.car["speed"] += self.accel
+			if (self.car["speed"] >= self.topSpeed):
+				self.car["speed"] = self.topSpeed
+		elif (pygame.key.get_pressed()[K_s]):
+			self.car["speed"] -= self.accel
+			if (self.car["speed"] <= -self.topSpeed):
+				self.car["speed"] = -self.topSpeed
+		else:
+			self.car["speed"] *= 0.9
+			if (fabs(self.car["speed"]) <= 1):
+				self.car["speed"] = 0
+
+		ratio = min(fabs(self.car["speed"]) / 3, 1)
+		if (pygame.key.get_pressed()[K_a]):
+			self.car["dir"] += self.turnSpeed * ratio
+		if (pygame.key.get_pressed()[K_d]):
+			self.car["dir"] -= self.turnSpeed * ratio
+		self.car["dir"] = self.car["dir"] % 360
+
+
+		dx = cos(radians(self.car["dir"])) * self.car["speed"]
+		dy = sin(radians(self.car["dir"])) * self.car["speed"]
+
+		self.car["x"] += dx
+		self.car["y"] -= dy
+
+	def tick(self):
+		self.car_movement()
+
+		for coin in self.coins:
+			if (self.imageRect.collidepoint(coin)):
+				self.coins.remove(coin)
+				self.collected += 1
+
+		if (dist((self.car["x"], self.car["y"]), self.target) < self.targetRadius):
+			self.gain = [self.collected * self.coinValue,0,0,0]
+			self.end = True
+
+	def draw(self, surface, font):
+		pygame.draw.circle(surface, (255,0,0), self.target, self.targetRadius, 2)
+
+		self.dollarSign = font.render("$", True, self.coinTextColor)
+		self.dollarSignRect = self.dollarSign.get_rect()
+		for coin in self.coins:
+			pygame.draw.circle(surface, (255,255,0), coin, self.coinRadius)
+			self.dollarSignRect.center = (coin[0], coin[1] + 1)
+			surface.blit(self.dollarSign, self.dollarSignRect)
+
+		self.carRot = pygame.transform.rotate(self.image, self.car["dir"])
+		self.imageRect = self.carRot.get_rect()
+		self.imageRect.center = (self.car["x"], self.car["y"])
+		surface.blit(self.carRot, self.imageRect)

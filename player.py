@@ -117,7 +117,7 @@ class Player:
 
 
 			dy = self.game.sr.HEIGHT // 2 - self.gameSurfaceRect.centery
-			heightPortion = 100 #self.game.sr.HEIGHT // 4
+			heightPortion = 60 #self.game.sr.HEIGHT // 4
 			if (fabs(dy) > heightPortion):
 				ys = copysign(ys, dy)
 
@@ -194,7 +194,6 @@ class Player:
 		return 255 - int(level * 255)
 
 	def draw(self, surface, font):
-		self.update_clock(surface, font)
 
 		self.minigames[self.currentMinigame].draw(font)
 		surface.blit(self.gameSurface, self.gameSurfaceRect)
@@ -205,6 +204,7 @@ class Player:
 		for button in self.buttons:
 			button.draw(surface, font)
 
+		self.update_clock(surface, font)
 
 		
 		self.fadeSurface.set_alpha(self.get_faded_level())
