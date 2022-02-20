@@ -8,7 +8,8 @@ from button import *
 class MinigameStudy(Minigame):
 	def __init__(self, player, surface, color):
 		Minigame.__init__(self, player, surface, color)
-		self.games = [MathGame(self), GeographyGame(self)]
+		#self.games = [MathGame(self), GeographyGame(self)]
+		self.games = [TypingGame(self)]
 
 def mul(a,b):
 	return a * b
@@ -139,3 +140,55 @@ class GeographyGame:
 
 		for button in self.buttons:
 			button.draw(surface, font)
+
+
+
+class TypingGame:
+	def __init__(self,mg):
+		self.mg = mg
+		self.gain = 10
+		self.end = False
+		self.text = ""
+		self.dum_text = list("")
+		self.current_letter = ''
+		self.current_index = 0
+		self.possibleText = [list("Type this for an B"),list("Type this for an A"),list("Where is new Zealand"),list("The mitochondria is the power house of the cell"),list("I love bean BURRITOS"),list("Where's my chicken statue"),]
+
+	def setup(self):
+		
+		self.text = choice(self.possibleText)
+		self.dum_text = list("")
+		self.end = False
+		self.current_letter = ''
+		self.current_index = 0
+		for letter in self.text:
+			self.dum_text.append(" ")
+		self.current_letter = self.text[0]
+
+	def nextLetter(self):
+		self.dum_text[self.current_index] = self.current_letter
+		if(self.current_index+1 == (len(self.text))):
+			self.end = True
+			return
+		self.current_index+=1
+		self.current_letter = self.text[self.current_index]
+
+	def tick(self):
+		for events in self.mg.player.pressedKeys:
+			if (events.key >= K_a and events.key <= K_z or events.key == K_SPACE):
+				if events.unicode == self.current_letter:
+					self.nextLetter()
+
+	def draw(self,surface,font):
+		self.answerText = font.render("".join(self.text), True, (255,255,255))
+		self.answerTextRect = self.answerText.get_rect()
+		self.answerTextRect.center = (self.mg.width // 2, self.mg.height // 4)
+		surface.blit(self.answerText, self.answerTextRect)
+
+		self.dum_Text = font.render("".join(self.dum_text), True, (0,255,0))
+		self.dum_TextRect = self.dum_Text.get_rect()
+		self.dum_TextRect.center = (self.mg.width // 2, self.mg.height // 4+200)
+		surface.blit(self.dum_Text, self.dum_TextRect)
+
+
+
