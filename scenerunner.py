@@ -56,6 +56,9 @@ class SceneRunner:
 
 			for item in scene.drawables:
 				item.draw(self.display_surface, self.font)
-
+			for item in self.scenes[0].player.bars:
+				if item.value == 0:
+					self.scenes[3].updateScore()
+					self.current_scene = 3
 			pygame.display.update()
 			self.clock.tick(self.FPS)
