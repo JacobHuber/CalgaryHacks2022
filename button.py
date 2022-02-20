@@ -9,7 +9,7 @@ class Button:
 		self.color = pygame.Color(color)
 		self.fontColor = pygame.Color(255,255,255)
 		self.text = text
-		self.rect = rect
+		self.rect = pygame.Rect(rect)
 		self.callback = callback
 
 		self.hovered = False
@@ -21,10 +21,11 @@ class Button:
 		self.offColor = self.color // scaleCol
 		self.offFontColor = self.fontColor // scaleCol
 
-	def tick(self):
+	def tick(self, mouse=None):
 		if (not self.off):
-			mouse = pygame.mouse.get_pos()
-
+			if (mouse is None):
+				mouse = pygame.mouse.get_pos()
+			
 			if (self.rect.collidepoint(mouse)):
 				if (pygame.mouse.get_pressed()[0]):
 					if (not self.clicked):

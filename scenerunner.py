@@ -13,6 +13,8 @@ class SceneRunner:
 		self.current_scene = 1
 		self.scenes = [Game(self),MainMenu(self)]
 
+		self.songName = "spookysong.ogg"
+
 		self.pygame_setup()
 		self.main_loop()
 
@@ -21,6 +23,9 @@ class SceneRunner:
 		self.display_surface = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
 		self.clock = pygame.time.Clock()
 		self.font = pygame.font.Font("font.ttf", 32)
+		pygame.mixer.music.load(self.songName, "ogg")
+		pygame.mixer.music.play(loops=1, fade_ms=1000)
+
 		
 		pygame.display.set_caption(self.name)
 

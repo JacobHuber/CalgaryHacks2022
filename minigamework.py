@@ -19,12 +19,11 @@ class CoinGame:
 		
 		self.amount = 4
 		self.coinValue = 3
-		self.end = False
+		self.coins = []
 
 		self.mouse_down = False
-
 		self.gain = 0
-		self.coins = []
+		self.end = False
 
 	def setup(self):
 		self.end = False
@@ -70,7 +69,7 @@ class CoinGame:
 		if (len(self.coins) == 0):
 			self.end = True
 
-	def draw(self, surface):
+	def draw(self, surface, font):
 		for coin in self.coins:
 			pygame.draw.circle(surface, self.coinColor, (coin["x"], coin["y"]), coin["r"])
 
