@@ -145,7 +145,7 @@ class GeographyGame:
 class TypingGame:
 	def __init__(self,mg):
 		self.mg = mg
-		self.gain = 10
+		self.gain = 0
 		self.end = False
 		self.text = ""
 		self.dum_text = list("")
@@ -158,6 +158,7 @@ class TypingGame:
 		self.text = choice(self.possibleText)
 		self.dum_text = list("")
 		self.end = False
+		self.gain = len(text)//2
 		self.current_letter = ''
 		self.current_index = 0
 		for letter in self.text:
