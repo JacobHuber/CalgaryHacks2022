@@ -118,7 +118,7 @@ class CustomerGame:
 		self.buttons.append(goodBtn)
 
 		badRect = (self.mg.width - 40 - 200, 80, 200, 40)
-		badBtn = Button("Fuck you!", badRect, (0,0,0), self.bad)
+		badBtn = Button("I hate bean burritos!", badRect, (0,0,0), self.bad)
 		self.buttons.append(badBtn)
 
 	def good(self, text):
