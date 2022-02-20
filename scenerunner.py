@@ -6,6 +6,7 @@ from infoMenu import InfoMenu
 from mainMenu import *
 from gameOver import *
 from newDay import *
+from particle import *
 
 global unique_Click
 
@@ -17,6 +18,8 @@ class SceneRunner:
 		self.WIDTH = 1280
 		self.HEIGHT = 720
 		self.FPS = 60
+		self.particles = []
+		self.create_particles()
 
 		self.current_scene = 1
 
@@ -26,6 +29,11 @@ class SceneRunner:
 		self.scenes.append(GameOver(self))
 		self.scenes.append(NewDay(self))
 		self.main_loop()
+
+
+	def create_particles(self):
+		for i in range(20):
+			self.particles.append(Particle(self))
 
 	def pygame_setup(self):
 		pygame.init()
@@ -44,6 +52,14 @@ class SceneRunner:
 			scene = self.scenes[self.current_scene]
 
 			self.display_surface.fill((0,0,0))
+
+			for particle in self.particles:
+				particle.tick()
+				particle.draw(self.display_surface)
+
+				if (particle.shouldRemove()):
+					self.particles.remove(particle)
+					self.particles.append(Particle(self))
 
 			keysThatAreDown = []
 			for event in pygame.event.get():
@@ -67,6 +83,8 @@ class SceneRunner:
 						self.scenes[3].updateScore()
 						self.scenes[0].create_player()
 						self.current_scene = 3
+
+			
 
 			pygame.display.update()
 			self.clock.tick(self.FPS)

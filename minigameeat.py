@@ -184,8 +184,8 @@ class BulletHellGame:
 
 class FreeBread:
 	def __init__(self, mg):
-		self.gameTitle = "Free Bread!"
-		self.subtitle = "It's probably? good!"
+		self.gameTitle = "WAIT"
+		self.subtitle = "bread is on its way!"
 
 		self.mg = mg
 		self.gain = [0,0,0,0]
