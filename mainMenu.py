@@ -24,7 +24,7 @@ class MainMenu:
 
     def exitFun(self,text):
         pygame.quit()
-        self.sr.sys.exit()
+        sys.exit()
 
     def addButton(self,buttonAdd):
         self.tickables.append(buttonAdd)
