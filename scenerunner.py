@@ -23,7 +23,8 @@ class SceneRunner:
 
 		self.current_scene = 1
 
-		self.songName = "spookysong.ogg"
+		self.songName = "spookysong"
+		self.songEndings = ["ogg", "mp3"]
 		self.pygame_setup()
 		self.scenes = [Game(self),MainMenu(self),InfoMenu(self)]
 		self.scenes.append(GameOver(self))
@@ -40,7 +41,12 @@ class SceneRunner:
 		self.display_surface = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
 		self.clock = pygame.time.Clock()
 		self.font = pygame.font.Font("font.ttf", 32)
-		pygame.mixer.music.load(self.songName, "ogg")
+		try:
+			ending = self.songEndings[0]
+			pygame.mixer.music.load("{0}.{1}".format(self.songName, ending), self.songEndings[0])
+		except:
+			ending = self.songEndings[1]
+			pygame.mixer.music.load("{0}.{1}".format(self.songName, ending), self.songEndings[1])
 		pygame.mixer.music.play(loops=-1, fade_ms=1000)
 		pygame.mixer.music.set_volume(0.2)
 
