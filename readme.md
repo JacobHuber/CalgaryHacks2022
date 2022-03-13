@@ -1,6 +1,6 @@
 # Calgary Hacks 2022 - Tier 1 Fourth Place
 
-Calgary Hacks was a 24 Hour programming competition following one of three themes.
+[Calgary Hacks 2022](https://calgary-hacks-2022.devpost.com/) was a 24 Hour programming competition following one of three themes. See our project on devpost [here](https://devpost.com/software/homework-please).
 
 ## Theme
 The theme that our group picked was topic one, to make a *"... game that captures the student experience"*. Our group was competing in Tier 1 of this competition.
